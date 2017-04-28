@@ -2,7 +2,7 @@
 %
 % Copyright 1989-2005 Johannes L. Braams and any individual authors
 % listed elsewhere in this file.  All rights reserved.
-% 
+%    2013-2017 Javier Bezos, Johannes L. Braams
 % This file is part of the Babel system.
 % --------------------------------------
 % 
@@ -16,7 +16,7 @@
 % 
 % This work has the LPPL maintenance status "maintained".
 % 
-% The Current Maintainer of this work is Johannes Braams.
+% The Current Maintainer of this work is Javier Bezos.
 % 
 % The list of all files belonging to the Babel system is
 % given in the file `manifest.bbl. See also `legal.bbl' for additional
@@ -26,7 +26,6 @@
 % and covered by LPPL is defined by the unpacking scripts (with
 % extension .ins) which are part of the distribution.
 % \fi
-% \CheckSum{360}
 % \iffalse
 %    Tell the \LaTeX\ system who we are and write an entry on the
 %    transcript.
@@ -43,15 +42,14 @@
 %<canadian>\ProvidesLanguage{canadian}
 %\fi
 %\ProvidesFile{english.dtx}
-        [2012/11/07 v3.3p English support from the babel system]
+        [2017/01/24 v3.3q English support from the babel system]
 %\iffalse
 %% File 'english.dtx'
 %% Babel package for LaTeX version 2e
 %% Copyright (C) 1989 - 2005
 %%           by Johannes Braams, TeXniek
+%%           2013-2017 Javier Bezos, Johannes Braams
 %
-%% Please report errors to: J.L. Braams
-%%                          babel at braams.cistron.nl
 %
 %    This file is part of the babel system, it provides the source
 %    code for the English language definition file.
@@ -93,6 +91,8 @@
 %    with \LaTeX} 
 % \changes{english-3.3h}{1996/10/10}{Moved the definition of
 %    \cs{atcatcode} right to the beginning.} 
+% \changes{english-3.3q}{2017/01/10}{Added the proxy files for the
+%    dialects}
 %
 %  \section{The English language}
 %
@@ -231,7 +231,6 @@
 \fi
 %    \end{macrocode}
 %
-
 % \changes{english-3.3k}{2001/02/07}{Added support for canadian}
 %    `Canadian' english spelling is a hybrid of British and American
 %    spelling. Although so far no special `translations' have been
@@ -448,12 +447,14 @@
 \ldf@finish\CurrentOption
 %</code>
 %    \end{macrocode}
-%%
+%
 % Finally, We create  a few proxy files, which just load english.ldf.
 %
+%    \begin{macrocode}
 %<*american|usenglish|british|ukenglish|australian|newzealand|canadian>
 \input english.ldf\relax
 %</american|usenglish|british|ukenglish|australian|newzealand|canadian>
+%    \end{macrocode}
 %
 % \Finale
 %%
