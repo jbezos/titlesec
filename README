@@ -1,0 +1,74 @@
+This directory holds 3 packages for sectioning titles -- when used as
+such (titlesec), in headers and footers (titleps) and in tables of
+contents (titletoc).  They can be used separately, but you will get
+most of them when used together.
+
+Titlesec
+~~~~~~~~
+Sectioning titles, including margin and `wrap' titles, different
+format in odd and even pages, rules above and below the title, 
+adding new sectioning levels, measuring the width of the title, etc.
+
+Titletoc
+~~~~~~~~
+TOC entries, with the possibility of changing the format in the middle
+of a document, grouping the entries in a single paragraph, pretty
+free-forms entries, partial tocs, etc.  It's described in titlesec.pdf
+(or .tex).
+
+Titleps
+~~~~~~~
+Page styles with working top marks, access to top, first and bot marks
+in a single header/footer, rules, headers/footers for specific floats
+(kinda \thispagestyle), multiple sets of marks, etc.  An one-stage
+mechanims is used, without intermediate \leftmark's or \rightmark's.
+
+What's new (2.9. 2.10)
+~~~~~~~~~~~~~~~~
+
+- Fixed \assignpagestyle, which did not work except in a 
+few cases.
+- Fixed an incompatibility with hyperref (wrong appendix 
+name).
+- Added \iftitlemeasuring
+- Added package option uppercase
+- Fixed a bug when reckoning the number of lines in wrap/drop.
+
+2.9.1: Fixed a typo (a spurious > in wrap.tss).
+2.9.2: Fixed another typo (\MessageBreag in ttlps.def)
+2.10.0: New features in titleps also available in titlesec
+
+Installation
+~~~~~~~~~~~~
+No .ins/.dtx preinstalation is required.  Move the files to a place 
+where LaTeX can find them and typeset titlesec.tex.  All of files in 
+this directory are necessary for titlesec.sty to work, except the 
+manual titlesec.tex (and this 'readme' file). The manual requires
+titlesec.sty and titletoc.sty, and hence all the .tss and .def 
+files as well.
+
+Formerly there were files with extension .new (titlesec.new and
+titletoc.new) used to patch the packages, but if present should be
+removed (they will be ignored, however).
+
+Web site, manual in PDF format and info
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Further details are available on
+
+   http://www.texnia.com/titlesec.html
+
+Contact
+~~~~~~~
+Please, for suggestions, bug reports, etc., go to
+More
+   http://www.texnia.com/contact.html
+
+Known problems
+~~~~~~~~~~
+Some language styles (for babel) add the indentation
+after a section in a so radical way that titlesec (which
+uses the internal LaTeX macros) cannot supress it again.
+For example, spanish (fixed in version 5.0) and frenchb.
+
+2016/03/21
+

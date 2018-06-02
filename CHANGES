@@ -1,0 +1,267 @@
+Titlesec changes
+
+History of v1.0
+~~~~~~~~~~~~~~~
+1998/02/25  Added nops option
+1998/02/28  Added \@mkboth stuff in \setmarks
+1998/03/01  Changed test in \ttl@secnum
+1998/03/03  Corrected some \fil... commands
+1998/03/03  Replaced the faulty \@hangfrom by new commands
+1998/03/03  Some \def replaced by \newcommand
+1998/03/04  .dtx/.ins scheme finally rejected. Useless
+            for users, obtrusive for `readers' and proned
+            to errors
+1998/03/04  Tidied up documentation
+1998/03/06  \wordsep renamed and documented
+1998/03/06  Added dummy asignation in \ttl@chap.
+1998/03/06  Removed \ttl@xsect and merged into \tl@sect
+1998/03/06  Added \ProvidesPackage
+
+History of v1.1
+~~~~~~~~~~~~~~~~
+1998/03/25  \chapter corrected, as well as the size options
+1998/03/26  Added compact option
+1998/03/26  Added flushleft, flushright and center options
+1998/04/08  Changed all instances of \noindent by \parindent\z@
+1998/04/14  Added \filinner, \filouter
+1998/04/14  Added drop shape
+1998/05/01  Added rightmargin shape (and margin renamed to
+            leftmargin)
+1998/05/03  Added \setheadindent
+
+History of v1.2 (unreleased)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1998/06/01  Compatibility with AMS classes
+1998/06/08  On-demand loading of shapes
+1998/06/11  Frame shape. Some \fil... command
+            modified to work in the label of this
+            chapter shape.
+1998/07/03  Bottomtitle option (at last...)
+1998/07/14  ...margin styles bug fixed using a method
+            similar to bottomtitle.
+1998/07/29  \titleline
+
+====================
+
+History of v2.0
+~~~~~~~~~~~~~~~~
+
+1998/08/05 to
+1998/08/29  Fully reimplemented
+
+History of v2.1
+~~~~~~~~~~~~~~~~
+1999/01/05  We define in this file the three basic shapes.
+            Additional ones remain defined in external files.
+            Unified the shapes for sections and chapters.
+1999/01/05  \ttl@shape merged into \ttl@format@iii.
+1999/01/05  \titlerule
+1999/01/07  \ttl@defkeys splitted from \ttl@keys
+1999/01/10  Added the \part stuff, including a definition of \@openright
+1999/01/11  Removed unnecessary \ttl@numsecfalse in \ttl@sect@i.
+1999/01/14  Optimized \titlerule
+1999/01/27  Changed \titleline to correct the spacing at the
+            top page and to fix a bug which changed the mode
+            to horizontal, thus introducing unwanted space
+            (\makebox -> \@makebox).
+1999/02/02  \ttl@secnum renamed to \ttl@write and introduced the
+            \ttl@savewrite mechanism to sincronize the toc/marks
+            with the title in case there is a \newpage in <after>.
+1999/02/03  wrap shape
+1999/02/03  Added a \kern\z@ for not to avoid hyphenation
+            of the last word. Not strictly necessary, but
+            it is more LaTeX-like.
+1999/02/05  \partmark defined (and in \setmarks, too).
+1999/02/08  \ttl@row@i simplified.
+1999/02/08  \ttl@savefn mechanism.
+1999/02/10  Removed extra \leavevmode in display
+1999/02/13  Now \titleline doesn't add the width. It's set.
+1999/02/17  The part mark is catched, even if unused.
+1999/02/17  old/newparttoc added.
+1999/02/18  Changed many TeX assignments to the LaTeX
+            counterpart.
+1999/02/19  Introduced \ttl@startargs.
+
+History of v2.1.1
+~~~~~~~~~~~~~~~~~
+1999/08/04  Moved misplaced lines in \ttl@makeboth
+
+History of v2.2 (unreleased)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1999/11/03  We load titleps if pagestyles are required, but
+            some old definitions are restored.
+1999/11/06  Improved outermarks test in \ttl@sect@i. Formerly
+            the section number could be printed if a page ended
+            with an unnumebered section followed by a numbered one.
+1999/11/06  \ttl@startargs now adds (and passes) automatically the
+            section name. Involved macros modified accordingly.
+1999/11/06  Replaced explicit part names by the parameter in 
+            \ttl@part@i. The same for chapter.
+1999/11/21  \ttl@try's are not given explicitly, but built by
+            \ttl@setkeys. Intruduced the \ttl@key@... and
+            \ttl@extra@... commands.
+1999/11/23  Minor problems with keys fixed.
+1999/12/10  Added the nobottomtitles* option and \ttl@addstretch.
+2000/01/07  First steps towards the calcwidth feature (basic code). 
+2000/01/08  (Continued.) \titleline* for rules of width \titlewidth.
+            Option calcwidth implemented.
+2000/01/12  Finished with changes in wrap.tss (no longer
+            "experimental" :-) ) 
+
+History of v2.3
+~~~~~~~~~~~~~~~
+2000/01/19  All keys are grouped in a single file tttkeys. Removed
+            page.tsk and deleted the corresponding code in the sty.
+2000/01/19  Classes begun.
+2000/01/19  The level numbers are stored in \ttll@ macros, and not
+            passed as arguments.
+2000/01/21  Introduced the new mark scheme. It's mostly compatible
+            with the old one, but a compatibility mode seems
+            imposible (it was introduced in a preliminary test
+            but eventually removed).
+2000/01/23  loadonly package option.
+2000/02/01  Classes finished. Many things had to be rewritten.
+2000/02/02  Made partially compatible with hyperref (dvips).
+2000/02/08  \ttl@savewrite moved from shapes to classes. But
+            explicit page breaks expand it, too, to avoid wrong
+            toc entries.
+2000/02/18  A new box named \ttl@box stores the title in runin
+            leftmargin etc shapes, to increase reliability.
+            
+(2.3.1 -- 2.3.3  No changes on this file)
+            
+History of v2.3.4
+~~~~~~~~~~~~~~~~~        
+2000/05/12  nonindentfirst redefine \titlespacing instead of
+            \@afterindent... so that they don't interfere with
+            the first entry in tocs.
+2000/05/17  The marks in \ttl@select are protected to prevent
+            endless loop if the title is expanded, say, by 
+            \MakeUppercase.
+     
+History of v2.3.5
+~~~~~~~~~~~~~~~~~        
+2000/05/21  Restores missing test for secnumdepth in \ttl@mkchap,
+            and instead of setting \ttl@toclevel in ttlps now is
+            done in \secdef. Except inside the macros, \ttl@toclevel
+            is false, so that an explicit \...mark works. 
+2000/06/04  \partmark defined with \providecommand
+2000/06/14  A patch mechanism added, for small bug fixes.
+
+History of v2.4
+~~~~~~~~~~~~~~~~
+2001/01/18  Minor changes in code. Essentialy an incremental
+            update.
+2001/01/22  \titleformat has a new "easy" starred variant.
+
+History of v2.5
+~~~~~~~~~~~~~~~
+2002/01/02  New macros for \ttl@assign. Now * length allow
+            non integer values.
+2002/03/22  Added \ttl@calc and \ttl@calcneg to make titlesec
+            calc-savvy.
+         -  Merged bug fixes of .new into this file.
+         -  Bugs in frame fixed -- gap in lines, misplaced
+            label, wrong margins (sometimes),
+         -  \leftskip, \rightskip and \linewidth (re)set in
+            margin shapes.
+         -  Removed obsolete flush... options.
+         -  indentafter and noindentafter, new names for
+            indentfirst and nonindentfirst.
+         -  A new level (\titleclass) without its "location"
+            now raises a meaningful error.
+         -  Bug in top-level \titleclass fixed.
+2002/03/23  Tests for undefined and unformatted sectioning levels,
+            and horizontal material in <format>.
+         -  Missing \if@openright inside \if@twoside in
+            page class added.
+         -  Removed extra (but inoffensive) \expandafter
+            in \ttl@class@iii.
+2002/03/27  Added \titlewidthfirst and ...last
+         -  "Not definable" gives a  more meaningful message in
+            the context of the package.
+
+History of v.2.6
+~~~~~~~~~~~~~~~~
+2004/08/30  Corrected typo in margin \hsiz -> \hsize.
+2004/10/17  Added a couple of missing \noexpand's in drop.
+2004/12/01  Removed the error about the mode in block because this
+            style is general purpose.
+2005/01/16  Missing braces around #2 in the last else part of
+            \ttl@headinline added
+         -  Replaced explicit \makeatother's by a saved value as
+            the macros can be used in a class/package file.
+2005/01/18  newlinetospace mechanism
+         -  // does not break pages; option pageatnewline to
+            restore the LaTeX behaviour.
+2005/01/19  \...break in top shape. 
+         -  Renumbered several scratch registers to follow the
+            TeXbook (p. 346), with \ttl@box in a few cases. In
+            wrap \titlewidthfirst and \titlewidthlast made global.
+         -  Float heads and foots have now a further argument for
+            additional stuff (eg, to remove rules). Option is now
+            psfloats while floatps enters in compatibility mode.
+         -  \ttl@savetitle in all classes. Option toctitles.
+2005/01/21  Changed pageatnewline to make it compatible with
+            titletoc, with \ttl@changecentercr.
+2005/01/22  \...tolist in top class.
+
+History of v.2.7
+~~~~~~~~~~~~~~~~
+2007-03-27  Added the `explicit' option.
+         -  Added \titlepagestyle.
+2007-03-29  Fixed wrong number for chapter in log
+         -  Patch file named .270 instead of .new
+2007-05-09  Added <after> to leftmargin, so that you can add stuff
+            at the beginning of the paragraph, eg, the sec number.
+2007-07-07  Removed the patch mechanism.
+2007-08-07  `explicit' improved.
+
+History of v.2.8
+~~~~~~~~~~~~~~~~
+2007-08-12  \titlepagestyle already used by KOMA-Script. Renamed
+            to \assignpagestyle.
+
+History of v.2.9
+~~~~~~~~~~~~~~~~ 
+2010-05-04  Add \nobreak in \ttl@addcontentsline, to prevent the title
+            going to footnotes (!) in runin style in some (rare) cases.
+2010-05-06  Option uppercase (and \ttl@case).
+2011-02-25  \iftitlemeasuring test
+2011-07-14  Fixed \assignpagestyle
+2011-07-15  Introduced the \scantokens mechanism to make sure section
+            names are 'letters' and not 'others'
+2011-07-18  Removed \if@nobreak test in wrap/drop, which added a line
+            to the title after another section (why?)
+
+History of v.2.9.1
+~~~~~~~~~~~~~~~~~~
+2011-08-28  Removed a spurious > in wrap.tss
+
+History of v.2.9.2
+~~~~~~~~~~~~~~~~~~
+2011-11-11  Fixed a typo in ttlps.def (\MessageBreag)
+
+History of v.2.10.0
+~~~~~~~~~~~~~~~~~~~~
+
+2011-12-15  Split titlesp
+
+History of v.2.10.1
+~~~~~~~~~~~~~~~~~~~~
+
+2015-02-27  Fix: An explict \newpage in 'after' wrote the toc entry twice
+2015-03-09  Fix (partial): A list containing just a sectioning command
+            raised an error
+
+History of v.2.10.2
+~~~~~~~~~~~~~~~~~~~~
+
+2015-03-21  Fix: With 2.10.1 labels vanished in hang shape (due to a
+            misplaced \noindent)
+
+History of titleps v.1.1.1
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+2016-03-15  New macro \setmarkboth for compatibility
+
