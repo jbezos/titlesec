@@ -1,3 +1,11 @@
+
+
+
+UNSTABLE RELEASE
+
+
+
+
 This directory holds 3 packages for sectioning titles -- when used as
 such (titlesec), in headers and footers (titleps) and in tables of
 contents (titletoc).  They can be used separately, but you will get

@@ -1,24 +1,10 @@
-% +--------------------------------------------------+
-% | Typeset titlesec.tex to get the documentation.   |
-% +--------------------------------------------------+
 %
-% Copyright (c) 1998-2016 by Javier Bezos.
-% All Rights Reserved.
+% Copyright (C) 1998-2019 Javier Bezos http://www.texnia.com
 %
-% This file is part of the titlesec distribution release 2.10.2
-% -----------------------------------------------------------
+% This file may be distributed and/or modified under the conditions of
+% the MIT License. A version can be found at the end of this file.
 %
-% It may be distributed and/or modified under the
-% conditions of the LaTeX Project Public License, either version 1.3
-% of this license or (at your option) any later version.
-% The latest version of this license is in
-%   http://www.latex-project.org/lppl.txt
-% and version 1.3 or later is part of all distributions of LaTeX
-% version 2003/12/01 or later.
-% 
-% This work has the LPPL maintenance status "maintained".
-% 
-% The Current Maintainer of this work is Javier Bezos.
+% Repository: https://github.com/jbezos/titlesec
 %
 % Notes
 % ~~~~~
@@ -87,11 +73,7 @@
     \edef\ttl@b{\expandafter\@gobble\string#1}%
     \let\ttl@a\ttl@b
   \else
-    \makeatletter
-    \edef\ttl@d{%
-      \noexpand\input{ttlkeys.def}%
-      \catcode`\noexpand\@=\the\catcode`\@}%
-    \ttl@d
+    \ttl@keys
     \ttl@getkeys{#1}{#2}%
   \fi}
 
@@ -611,7 +593,6 @@
   \fi
   \ignorespaces}
 
-
 %     \def\ttl@noskipsectrue{%
 %       \if@noskipsec
 %     \PackageError{titlesec}{Invalid shape for top class}%
@@ -694,10 +675,14 @@
     \begingroup
     \makeatletter
     \InputIfFileExists{#1.tss}{}{%
-      \PackageError{titlesec}{Unknown shape}%
-         {Shapes are defined in files with extension tss\MessageBreak
-          Either you have misspelled the shape\MessageBreak
-          or there is no a #1.tss file}}%
+      \@ifundefined{ttlhx@#1}%
+        {\PackageError{titlesec}{Unknown shape}%
+           {Shapes are defined in files with extension tss\MessageBreak
+            Either you have misspelled the shape\MessageBreak
+            or there is no a #1.tss file}}%
+        {\global\expandafter
+         \let\csname ttlh@#1\expandafter\endcsname
+           \csname ttlhx@#1\endcsname}}%
     \endgroup}{}%
   \@temptokena{#2}%
   \ifttl@explicit
@@ -725,21 +710,24 @@
 % With the option explicit, #4 contains the title and #8 is
 % empty.
 
+\def\ttl@strut{\strut}
+
 \def\ttlh@display#1#2#3#4#5#6#7#8{%
   \gdef\ttl@makeline##1{\ttl@calc\hspace{#6}##1\ttl@calc\hspace{#7}}%
   \setlength\leftskip{#6}%
   \setlength\rightskip{#7}%
   \interlinepenalty\@M
   \ttl@changecentercr
+  \ttl@defnostruts
   \ttl@beginlongest
     #1\ifhmode\ttl@hmode@error\fi
     \ttl@glcmds
     \parindent\z@
     \ifttl@label
-      {#2\strut\@@par}\nobreak\ttl@calc\vspace{#3}%
+      {#2\ttl@strut\@@par}\nobreak\ttl@calc\vspace{#3}%
     \fi
     #4{#8}%
-   \kern\z@\strut\@@par
+   \kern\z@\ttl@strut\@@par
    \nobreak\ttl@midlongest#5\@@par
   \ttl@endlongest}
 
@@ -749,6 +737,7 @@
   \setlength\rightskip{#7}%
   \interlinepenalty\@M
   \ttl@changecentercr
+  \ttl@defnostruts
   \ttl@beginlongest
   #1{\ifhmode\ttl@hmode@error\fi
      \ttl@glcmds
@@ -756,12 +745,12 @@
      \begingroup
        \ifttl@label
           \noindent
-          \sbox\z@{#2\strut\ttl@calc\hspace{#3}}%
+          \sbox\z@{#2\ttl@strut\ttl@calc\hspace{#3}}%
           \hangindent\wd\z@
           \box\z@
        \fi
        #4{#8}%
-       \kern\z@\strut\@@par
+       \kern\z@\ttl@strut\@@par
      \endgroup
      \nobreak\ttl@midlongest#5\@@par}%
   \ttl@endlongest}
@@ -770,12 +759,248 @@
   \global\@noskipsectrue
   \gdef\ttl@makeline##1{##1}%
   \ttl@changecentercr
+  \ttl@defnostruts
   #1{\ifhmode\ttl@hmode@error\fi
      \global\sbox\ttl@box{%
        \ttl@calc\hspace{#6}%
-       \ifttl@label{\strut#2}\ttl@calc\hspace{#3}\fi
+       \ifttl@label{\ttl@strut#2}\ttl@calc\hspace{#3}\fi
        #4{#8}#5\unskip}}%
     \gdef\@svsechd{\unhbox\ttl@box}}
+
+\gdef\ttlhx@block#1#2#3#4#5#6#7#8{%
+  \gdef\ttl@makeline##1{\ttl@calc\hspace{#6}##1\ttl@calc\hspace{#7}}%
+  \setlength\leftskip{#6}%
+  \setlength\rightskip{#7}%
+  \interlinepenalty\@M
+  \ttl@changecentercr
+  \ttl@defnostruts
+  \ttl@beginlongest
+    #1% \ifhmode\ttl@hmode@error\fi
+    \ttl@glcmds
+    \parindent\z@
+    \leavevmode
+    \ifttl@label
+       {#2}%
+       \setlength\@tempskipa{#3}%
+       \ifdim\@tempskipa=\z@\else\ttl@calc\hspace{#3}\fi
+    \fi
+    #4{#8}%
+    \kern\z@\ttl@strut\@@par
+    \nobreak\ttl@midlongest#5\@@par
+  \ttl@endlongest}
+  
+  % ----------
+
+\gdef\ttlhx@frame#1#2#3#4#5#6#7#8{%
+  \def\ttl@filleft##1{\hfill}%
+  \def\ttl@filright##1{\hfill}%
+  \gdef\ttl@makeline##1{%
+    \ttl@calc\hspace{#6}##1\ttl@calc\hspace{#7}}%
+  \interlinepenalty\@M
+  \ttl@changecentercr
+  \ttl@defnostruts
+  #1\ifhmode\ttl@hmode@error\fi
+  \parindent\z@
+  \leavevmode
+  \@tempdima\fboxrule
+  \addtolength\@tempdima{#3}%
+  \setlength\leftskip{#6}%
+  \setlength\rightskip{#7}%
+  \lower\@tempdima\hbox{%
+    \everypar{}%
+    \setbox\z@\hbox{#2}%  
+    \addtolength\hsize{-#6}%
+    \addtolength\hsize{-#7}%
+    \@tempdima\dp\z@ %  2002/3/22
+    \advance\@tempdima.5\ht\z@
+    \vbox{%
+        \hbox to \hsize{%
+          \leaders\hrule\@height\fboxrule\ttl@filleft{#3}%
+          \ifttl@label\lower.5\ht\z@\box\z@\fi
+          \leaders\hrule\@height\fboxrule\ttl@filright{#3}}%
+        \vskip-\lineskip
+        \ifttl@label\vskip-\@tempdima\fi
+        \hbox{%
+          \vrule\@width\fboxrule
+          \kern-\fboxrule
+          \vbox{%
+             \ttl@calc\vspace{#3}%
+             \leavevmode
+	         \addtolength\leftskip {#3}\addtolength\leftskip{-#6}%
+	         \addtolength\rightskip{#3}\addtolength\rightskip{-#7}%
+	         \ttl@strut#4{#8}\kern\z@\ttl@strut\@@par
+             \ttl@calc\vspace{#3}}%
+          \kern-\fboxrule
+          \vrule\@width\fboxrule}%
+       \hrule\@height\fboxrule}}%
+	   \@@par\nobreak#5\@@par}
+
+\gdef\ttlhx@leftmargin#1#2#3#4#5#6#7#8{%
+  \global\@noskipsectrue
+  \addtolength\@tempskipb{#6}%
+  \xdef\ttl@makeline##1{\hskip-\the\@tempskipb\relax##1}%
+  \leftskip\z@skip
+  \rightskip\z@skip
+  \ttl@changecentercr
+  \ttl@defnostruts
+  #1\ifhmode\ttl@hmode@error\fi
+  \parindent\z@
+  \global\setbox\ttl@box\vtop{%
+    \setlength\hsize{#6}%
+    \linewidth\hsize
+    \everypar{}%
+    \color@begingroup
+    \ifttl@label{\ttl@strut#2\ttl@strut}\ttl@calc\hspace{#3}\fi
+	   \ttl@strut#4{#8}\kern\z@\ttl@strut\@@par
+    \color@endgroup}%
+  \advance\@tempskipa\ht\ttl@box
+  \advance\@tempskipa\dp\ttl@box
+  \advance\@tempskipa-\pagegoal
+  \advance\@tempskipa\pagestretch
+  \@tempskipb\pagegoal
+  \pagegoal-\@tempskipa
+  \ifdim\bottomtitlespace<\z@\else
+    \def\@textbottom{\vskip\z@\@plus.0001fil}%
+  \fi
+  \penalty9999
+  \pagegoal\@tempskipb
+  \dp\ttl@box=\z@
+  \gdef\@svsechd##1##2{%   
+    \llap{\box\ttl@box##2}%
+    \if@afterindent\hskip\parindent\fi
+    #5}}
+
+\let\ttlhx@margin\ttlhx@leftmargin
+
+\gdef\ttlhx@rightmargin#1#2#3#4#5#6#7#8{%
+  \global\@noskipsectrue
+  \addtolength\@tempskipb{#6}%
+  \xdef\ttl@makeline##1{##1\hskip-\the\@tempskipb}%
+  \leftskip\z@skip
+  \rightskip\z@skip
+  \ttl@changecentercr
+  \ttl@defnostruts
+  #1\ifhmode\ttl@hmode@error\fi
+  \parindent\z@
+  \global\setbox\ttl@box\vtop{%
+     \setlength\hsize{#6}%
+     \linewidth\hsize
+     \everypar{}%
+     \color@begingroup
+     \ifttl@label{\ttl@strut#2\ttl@strut}\ttl@calc\hspace{#3}\fi
+	    \ttl@strut#4{#8}\kern\z@\ttl@strut\@@par
+     \color@endgroup}%
+  \advance\@tempskipa\ht\ttl@box
+  \advance\@tempskipa\dp\ttl@box
+  \advance\@tempskipa-\pagegoal
+  \advance\@tempskipa\pagestretch
+  \@tempskipb\pagegoal
+  \pagegoal-\@tempskipa
+  \ifdim\bottomtitlespace<\z@\else
+    \def\@textbottom{\vskip\z@\@plus.0001fil}%
+  \fi
+  \penalty9999
+  \pagegoal\@tempskipb
+  \dp\ttl@box=\z@  
+  \gdef\@svsechd##1##2{%
+    \rlap{\hskip\textwidth##2\box\ttl@box}%
+    \if@afterindent\hskip\parindent\fi}}
+
+\gdef\ttlhx@wrap#1#2#3#4#5#6#7#8{%
+  \global\@noskipsectrue
+  \gdef\ttl@makeline##1{##1}%
+  \ttl@changecentercr
+  \ttl@defnostruts
+  \begingroup
+    #1\ifhmode\ttl@hmode@error\fi
+    \titlewidth\z@
+    \def\\{\@ifstar{\@ifnextchar[{\ttl@bs}{\newline}}%
+                   {\@ifnextchar[{\ttl@bs}{\newline}}}%
+    \def\ttl@bs[##1]{\newline}%
+    \let\@centercr\\%
+    \advance\rightskip 1\leftskip plus 1fil
+    \leftskip=\z@
+    \parindent\z@
+    \let\iftitlemeasuring\@firstoftwo
+    \global\setbox\ttl@box\vtop{\setlength\hsize{#6}%
+      \color@begingroup
+      \ifttl@label{#2}\ttl@calc\hspace{#3}\fi
+      #4{#8}\kern\z@\ttl@strut
+      \@@par
+      \color@endgroup}%
+    \let\iftitlemeasuring\@secondoftwo
+    \ttl@boxprocess
+    \global\titlewidth\titlewidth
+    \global\titlewidthfirst\titlewidthfirst
+    \global\titlewidthlast\titlewidthlast
+  \endgroup
+  \edef\ttl@maxdimen{\the\titlewidth}%
+  #1\ifhmode\ttl@hmode@error\fi
+  \global\setbox\ttl@box\vtop{\setlength\hsize{\ttl@maxdimen}%
+    \color@begingroup
+    \ifttl@label{#2}\ttl@calc\hspace{#3}\fi#4{#8}\kern\z@\ttl@strut
+    \@@par
+    \color@endgroup}%
+  \advance\@tempskipa1.5\baselineskip
+  \advance\@tempskipa\ht\ttl@box
+  \advance\@tempskipa\dp\ttl@box
+  \advance\@tempskipa-\pagegoal
+  \advance\@tempskipa\pagestretch
+  \@tempskipb\pagegoal
+  \pagegoal-\@tempskipa
+  \ifdim\bottomtitlespace<\z@\else
+    \def\@textbottom{\vskip\z@\@plus.0001fil}%
+  \fi
+  \penalty9999
+  \pagegoal\@tempskipb
+  \@tempdima\ht\ttl@box \advance\@tempdima\dp\ttl@box
+  \@tempdimb\@tempdima
+  \divide\@tempdima\baselineskip \count@\@tempdima
+  \advance\count@
+    \ifdim\@tempdimb<\the\count@.5\baselineskip\@ne\else\tw@\fi
+  \dp\ttl@box=\z@
+  \xdef\@svsechd##1##2{%
+    \noexpand\llap{\box\ttl@box##2}%
+    \setbox\z@\hbox{\hskip\ttl@maxdimen\relax##2}%
+    \global\hangindent\wd\z@
+    \global\hangafter-\the\count@\relax}}
+
+\gdef\ttlhx@drop#1#2#3#4#5#6#7#8{%
+  \global\@noskipsectrue
+  \gdef\ttl@makeline##1{##1}%
+  \ttl@changecentercr
+  \ttl@defnostruts
+  #1\ifhmode\ttl@hmode@error\fi
+  \parindent\z@
+  \global\setbox\ttl@box\vtop{\setlength\hsize{#6}%
+    \color@begingroup
+    \ifttl@label{#2}\ttl@calc\hspace{#3}\fi
+    #4{#8}\kern\z@\ttl@strut
+    \@@par
+    \color@endgroup}%
+  \advance\@tempskipa1.5\baselineskip
+  \advance\@tempskipa\ht\ttl@box
+  \advance\@tempskipa\dp\ttl@box
+  \advance\@tempskipa-\pagegoal
+  \advance\@tempskipa\pagestretch
+  \@tempskipb\pagegoal
+  \pagegoal-\@tempskipa
+  \ifdim\bottomtitlespace<\z@\else
+    \def\@textbottom{\vskip\z@\@plus.0001fil}%
+  \fi
+  \penalty9999
+  \pagegoal\@tempskipb
+  \@tempdima\ht\ttl@box \advance\@tempdima\dp\ttl@box
+  \@tempdimb\@tempdima
+  \divide\@tempdima\baselineskip \count@\@tempdima
+  \advance\count@
+  \ifdim\@tempdimb<\the\count@.5\baselineskip\@ne\else\tw@\fi
+  \dp\ttl@box=\z@
+  \xdef\@svsechd##1##2{%
+    \noexpand\llap{\box\ttl@box##2}%
+    \setbox\z@\hbox{\noexpand\ttl@calc\noexpand\hspace{#6}\relax##2}%
+    \global\hangindent\wd\z@
+    \global\hangafter-\the\count@\relax}}
 
 %               +-----------------+
 %               |    T O O L S    |
@@ -913,10 +1138,15 @@
 \newcommand\wordsep{\fontdimen\tw@\font \@plus
   \fontdimen\thr@@\font \@minus \fontdimen4\font}
 
+% Struts.
+% ~~~~~~
+% A way to remove the struts added by styles.
+
+\def\ttl@defnostruts{\def\nostruts{\let\bbl@strut\@empty}}
+
 %               +-----------------+
 %               |  O P T I O N S  |
 %               +-----------------+
-
 
 \DeclareOption{pagestyles}{\let\sectiontitle\@empty}
 \DeclareOption{extramarks}{\let\ttl@fetchmark\@empty}
@@ -1121,27 +1351,30 @@
 
 \providecommand\newpagestyle{%
   \let\ttl@compatps\@empty % marks the ``old interface''
+  \let\ttl@coreps\@empty
   \makeatletter
   \edef\ttl@d{%
-    \noexpand\input{ttlps.def}%
+    \noexpand\input{titleps.sty}%
     \catcode`\noexpand\@=\the\catcode`\@}%
   \ttl@d
   \newpagestyle}
   
 \providecommand\renewpagestyle{%
   \let\ttl@compatps\@empty % marks the ``old interface''
+  \let\ttl@coreps\@empty
   \makeatletter
   \edef\ttl@d{%
-    \noexpand\input{ttlps.def}%
+    \noexpand\input{titleps.sty}%
     \catcode`\noexpand\@=\the\catcode`\@}%
   \ttl@d
   \renewpagestyle}
 
 \providecommand\widenhead{%
   \let\ttl@compatps\@empty % marks the ``old interface''
+  \let\ttl@coreps\@empty
   \makeatletter
   \edef\ttl@d{%
-    \noexpand\input{ttlps.def}%
+    \noexpand\input{titleps.sty}%
     \catcode`\noexpand\@=\the\catcode`\@}%
   \ttl@d
   \widenhead}
@@ -1149,7 +1382,86 @@
 % New pagestyles
 % ~~~~~~~~~~~~~~
 
-\@ifundefined{sectiontitle}{}{\input{ttlps.def}}
+\@ifundefined{sectiontitle}{}{%
+  \let\ttl@coreps\@empty
+  \input{titleps.sty}}
+
+%               +-----------------+
+%               |     K E Y S     |
+%               +-----------------+
+
+\def\ttl@keys{%
+  \let\ttl@keys\relax
+  \@ifundefined{define@key}{\RequirePackage{keyval}}{}%
+  \def\ttl@getkeys##1##2{%
+    \let\ttl@a\@empty
+    \if\expandafter @\@gobble##1@\@empty % if there is a single token
+      \edef\ttl@b{\expandafter\@gobble\string##1}%
+      \let\ttl@a\ttl@b
+    \else
+      \ttl@labelfalse  %  A temporary flag: true if there is page key
+      \setkeys{##2}{##1}%
+      \ifttl@label
+        \@ifundefined{ttlp@\ttl@b}{%
+          \expandafter\let\csname ttlp@\ttl@b\endcsname\@empty}{}%
+      \fi
+      \edef\ttl@a{\ttl@b\ttl@a}%
+    \fi}%
+  %
+  \define@key{titlesec}{name}{%
+    \edef\ttl@b{\expandafter\@gobble\string##1}}%
+  \define@key{titlesec}{numberless}[true]{%
+    \csname @tempswa##1\endcsname
+    \if@tempswa
+      \edef\ttl@a{\ttl@a/*}%
+    \fi}%
+  \define@key{titlesec}{page}{%
+    \ttl@labeltrue  % Used as flag
+    \edef\ttl@a{/##1\ttl@a}}%
+  %
+  \def\ttl@extra@numberless{\ttl@labeltrue}% The actual meaning
+  \let\ttl@key@numberless\@empty
+  %\let\ttl@key@matter\@empty
+  \let\ttlp@append\@gobbletwo
+  \def\ttl@setkeys##1{%
+    \def\ttl@trylist{\ttl@try{}}%
+    \@for\ttl@b:=##1\do{%
+      \begingroup
+        \let\ttl@a\relax
+        \def\ttl@try####1{%
+          \noexpand\ttl@try{####1\ttl@a{\ttl@b}}%
+          \noexpand\ttl@try{####1}}%
+        \xdef\ttl@trylist{\ttl@trylist}%
+      \endgroup}}%
+  \ttl@setkeys{page,numberless}% matter
+  %
+  \if@twoside
+    \newcounter{ttlp@side}%
+    \newcount\ttlp@side
+    \def\ttlp@theside{\ifodd\c@page o\else e\fi}%
+    \def\ttlp@append##1##2{%
+     {\let\@elt\relax
+      \expandafter\xdef\csname ttlp@##1\endcsname{%
+         \csname ttlp@##1\endcsname\@elt ##2}}}%
+    \def\ttlp@write##1{%
+      {\let\ttlp@theside\relax
+       \protected@write\@auxout{}%
+         {\string\ttlp@append{##1}{\ttlp@theside}}}}%
+    \def\ttlp@fetch##1{%
+       \stepcounter{ttlp@side}%
+       \global\advance\ttlp@side\@ne
+       \@whilenum\ttlp@side<\c@ttlp@side\do{%
+          \expandafter\@next\expandafter\@tempa\csname ttlp@##1\endcsname{}{}%
+          \global\advance\ttlp@side\@ne}%
+       \expandafter\@next\expandafter\ttl@b\csname ttlp@##1\endcsname{%
+          \xdef\ttl@key@page{/\if\ttl@b oodd\else even\fi}%
+       }{%
+          \xdef\ttl@key@page{/\ifodd\c@page odd\else even\fi}%
+       \@@warning{Unsynchronized `##1' title on page \thepage}}}%
+  \else
+    \let\ttlp@write\@gobble
+    \def\ttlp@fetch##1{\gdef\ttl@key@page{/odd}}%
+  \fi}
 
 %               +-----------------+
 %               |   C O M P A T   |

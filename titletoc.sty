@@ -1,25 +1,11 @@
-% +---------------------------------------------+
-% | Documentation is in the titlesec.tex file.  |
-% +---------------------------------------------+
 %
-% Copyright (c) 1998-2016 by Javier Bezos.
-% All Rights Reserved.
+% Copyright (C) 1998-2019 Javier Bezos http://www.texnia.com
 %
-% This file is part of the titlesec distribution release 2.10.2
-% -----------------------------------------------------------
+% This file may be distributed and/or modified under the conditions of
+% the MIT License. A version can be found at the end of this file.
 %
-% It may be distributed and/or modified under the
-% conditions of the LaTeX Project Public License, either version 1.3
-% of this license or (at your option) any later version.
-% The latest version of this license is in
-%   http://www.latex-project.org/lppl.txt
-% and version 1.3 or later is part of all distributions of LaTeX
-% version 2003/12/01 or later.
-% 
-% This work has the LPPL maintenance status "maintained".
-% 
-% The Current Maintainer of this work is Javier Bezos.
-
+% Repository: https://github.com/jbezos/titlesec
+%
 % History of v1.1
 % ~~~~~~~~~~~~~~~
 % 99/04/22: A bug fix. Some missing global assignments in \ttl@tocentry
@@ -171,7 +157,7 @@
   \let\\\@centercr
   \filleft\advance\rightskip\z@ \@plus -1fil
   \parfillskip\z@ \@plus 2fil\relax}
-  
+
 % Now, the specific titletoc part
 
 % User interface
@@ -293,6 +279,9 @@
                {\ttl@contents@i{#1}{#2}[\@nil]}}
 
 \def\ttl@contents@i#1#2[#3]#4#5#6#7{%
+  \@ifundefined{ttll@#2}%
+    {\expandafter\def\csname ttll@#2\endcsname{-1000}}%
+    {}%
   \expandafter\def\csname l@#2\endcsname
     {\ttl@tocentry{#1}{#2}{#3}{#4}{{#5}{#6}}{#7}}%
   \@ifnextchar[{\ttl@contents@ii{#1}{#2}}%
@@ -637,4 +626,3 @@
 \edef\ttl@corr{-\the\@tempskipa}
 
 \endinput
-
