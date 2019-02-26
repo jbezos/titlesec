@@ -34,7 +34,7 @@
 % ~~~~~~~
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{titlesec}[2016/03/21 v2.10.2 Sectioning titles]
+\ProvidesPackage{titlesec}[2019/02/04 v2.11 Sectioning titles] %%NB%%
 
 % Initialization
 % ~~~~~~~~~~~~~~
@@ -264,7 +264,7 @@
   \global\let\ttl@fn\@empty
   \begingroup
    \if@inlabel\else % Keep item's \everypar
-      \everypar{\setbox\z@\lastbox\strut}%
+      \everypar{\setbox\z@\lastbox\ttl@strut}%
    \fi
    \let\ttl@straight@i\ttl@nest@error
    \let\ttl@top@i     \ttl@nest@error
@@ -607,7 +607,7 @@
 %               |   S H A P E S   |
 %               +-----------------+
 %               
-% % Reformatting Titles: Interface
+% Reformatting Titles: Interface
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 % The surrounding space is stored in a macro
@@ -1140,9 +1140,10 @@
 
 % Struts.
 % ~~~~~~
-% A way to remove the struts added by styles.
+% A way to remove the struts added by styles. May be redefined below
+% with option nostruts.
 
-\def\ttl@defnostruts{\def\nostruts{\let\bbl@strut\@empty}}
+\def\ttl@defnostruts{\def\nostruts{\let\ttl@strut\@empty}}
 
 %               +-----------------+
 %               |  O P T I O N S  |
@@ -1317,6 +1318,14 @@
 \DeclareOption{pageatnewline}{\let\ttl@changecentercr\relax}
 
 \def\ttl@fonts{}
+
+% nostruts
+
+\DeclareOption{nostruts}{%
+  \let\ttl@strut\@empty
+  \def\ttl@defnostruts{%
+    \let\ttl@strut\@empty
+    \def\nostruts{\let\ttl@strut\@empty}}}
 
 \ExecuteOptions{rubberchapters,bottomtitles,aftersep,oldparttoc,%
   innermarks}

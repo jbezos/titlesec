@@ -7,8 +7,8 @@
 % Repository: https://github.com/jbezos/titlesec
 %
 
-\def\fileversion{2.10.2}
-\def\docdate{2016-03-21}
+\def\fileversion{2.11}  %%NB%%
+\def\docdate{2016-03-21}  %%NB%%
 
 \documentclass[a4paper]{ltxguide}
 \usepackage[sf,bf,compact,topmarks,calcwidth,pagestyles]{titlesec}
@@ -329,18 +329,20 @@ to frame. Both |<label>| and |<sep>| are ignored in starred versions
 of sectioning commands. If you are using |picture| and the like, set 
 this parameter to 0 pt.
 
-\item |<before-code>| is code preceding the title body. The very last 
-command can take an argument, which is the title 
-text.\footnote{Remember font size can be changed safely between 
-paragraphs only, and changes in the text should be made local with 
-a group; otherwise the leading might be wrong---too large or too small.}
-However, with the package option \texttt{explicit} the title must
-be given explicitly with |#1| (see below).
+\item |<before-code>| is code preceding the title body. The very last
+command can take an argument, which is the title
+text.\footnote{Remember font size can be changed safely between
+paragraphs only, and changes in the text should be made local with a
+group; otherwise the leading might be wrong---too large or too small.}
+However, with the package option \texttt{explicit} the title must be
+given explicitly with |#1| (see below). Penalties in this argument may
+lead to unexpected results.
 
 \item |<after-code>| is code following the title body. The typeset
-material is in vertical mode with |hang|, |block| and |display|;
-in horizontal mode with |runin| and |leftmargin| (\fbox{2.7} with the latter,
-at the beginning of the paragraph). Otherwise is ignored.
+material is in vertical mode with |hang|, |block| and |display|; in
+horizontal mode with |runin| and |leftmargin| (\fbox{2.7} with the
+latter, at the beginning of the paragraph). Otherwise is ignored.
+Penalties in this argument may lead to unexpected results.
 \end{itemize}
 
 \begin{desc}
@@ -660,6 +662,10 @@ too.  Suitable values would be \verb|\cleardoublepage| (the default if
 \verb|\chapterbreak| as \verb|\clearpage|, provided its class has been
 changed to \verb|top| (in this example, parts will continue with the
 \verb|openright| setting).
+
+Note these macros apply the penalties at the right place. In other
+words, penalties in |<before-code>| and |<after-code>| can lead to
+unexpected (and even weird) results.
 
 \begin{desc}
 |\chaptertolists|
