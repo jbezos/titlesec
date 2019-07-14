@@ -6,78 +6,8 @@
 %
 % Repository: https://github.com/jbezos/titlesec
 %
-% History of v1.1
-% ~~~~~~~~~~~~~~~
-% 99/04/22: A bug fix. Some missing global assignments in \ttl@tocentry
-%           were missing, and page numbers messed up with 
-%           \titlecontents*
-% 
-% History of v1.2
-% ~~~~~~~~~~~~~~~~
-% 99/10/20: Added \contentsafter. \ttl@tocentry modified to accept
-%           the new command for grouping in a paragraph entries of
-%           different levels.
-% 99/10/27: Instead of defining the level numbers explicitly, that's
-%           done with \ttl@setlevels and \ttl@levels.
-% 99/10/27: Added the basic code for multiple indexes.
-% 99/10/29: Added the toctop test to the \ttl@savel@... commands.
-% 99/12/28: Simplified \ttl@savel@... with \ttl@lselect.
-% 00/01/12: \contentsafter rejected. An aditional optional parameter
-%           is used instead. (Too) many thing had to be rewritten.
-% 00/01/27: Removed \ttl@setlevels. Any change of levels are
-%           best done with titlesec.
-% 00/02/14: Moved misplaced \vskip in ttl@tocentry.
-% 00/02/16: A few changes in the "block" separators.
-% 00/02/16: Fixed bug in \ttl@margin. For the right margin the
-%           correction was used instead of the margin.
-%
-% History of v1.2.1
-% ~~~~~~~~~~~~~~~~~
-% 00/04/25: Dirty trick to make sure that \ttl@finish is the very
-%           last thing in lists of floats (lof, lot, etc.).
-% 00/05/14: Missing \global before \ttl@labelfalse added.
-% 
-% History of 1.2.2
-% ~~~~~~~~~~~~~~~~
-% 00/06/05: The optional argument no longer mandatory, but
-%           still reporting an error if the length is missing.
-%           Minor internal changes, and a patch mechanism added.
-%
-% History of 1.3
-% ~~~~~~~~~~~~~~
-% 01/01/12: Minor changes and some missing \globals added for
-%           partial tocs to work inside a group.
-% 01/01/21: Added \dottedcontents.
-% 
-% History of 1.4
-% ~~~~~~~~~~~~~~
-% 02/03/27: titletoc.new merged into this file
-% 02/03/27: \ttl@finish written by the last \newpage. 
-% 02/03/27: \ttl@lsection broke paragraphs always. Now
-%           only if the sublevel is typeset.
-% 02/03/27: \ttl@finish -> \contentsfinish
-%
-% History of 1.5
-% ~~~~~~~~~~~~~~
-% 03/06/14: \contentspush didn't work because of the change of
-% (.new)    \leftskip  was done inside a group before the
-%           corresponding \par 
-% 03/06/14: Added an useful error if a partial TOC is not
-% (.new)    defined.
-% 05/01/17: New options rubber/rigidseps, to remove if desired
-%           the small vertical "plus" between entries.
-% 05/01/20: Begin work on partial lists.
-% 05/01/21: \ttl@outblock and \ttl@outnoblock just to avoid a
-%           huge definition and to ease patching.
-% 05/01/22: Work on partial lists finished (but to be resumed).
 
-% History of 1.6
-% ~~~~~~~~~~~~~~
-% 07/05/04: Added the patch 2005/05/03 which fixed a wrong
-%           result with \included (F. Mittelbach)
-% 07/07/14: Removed the patch mechanism.
-
-\ProvidesPackage{titletoc}[2019/02/04 v2.11 TOC entries] %%NB%%
+\ProvidesPackage{titletoc}[2019/07/14 v2.11.1702 TOC entries]
 
 % The following tags are used:
 % ttl@  : the generic one, shared with titlesec
@@ -249,14 +179,7 @@
     \xdef\ttl@b{-10000}% ships out any saved punctuation
     \ttl@preend
     \@@par
-    \ifx\Hy@tocdestname\@undefined
-      \endgroup
-    \else
-      \edef\ttl@aftergroup{%
-        \endgroup
-        \def\noexpand\Hy@tocdestname{\Hy@tocdestname}}%
-      \ttl@aftergroup
-    \fi
+    \endgroup
     \global\ttl@fromblockfalse
   \fi}
 
@@ -285,10 +208,19 @@
   \@ifnextchar[{\ttl@contents@i{#1}{#2}}%
                {\ttl@contents@i{#1}{#2}[\@nil]}}
 
+% A dirty hack to fix wrong destinations with hyperref:
+\let\ttl@fixhyperref\relax
+
 \def\ttl@contents@i#1#2[#3]#4#5#6#7{%
   \@ifundefined{ttll@#2}%
     {\expandafter\def\csname ttll@#2\endcsname{-1000}}%
     {}%
+  \ifcase#1\relax
+    \def\ttl@fixhyperref{%
+      \ifx\Hy@tocdestname\@undefined\else
+        \global\let\Hy@tocdestname\Hy@tocdestname
+      \fi}%
+  \fi
   \expandafter\def\csname l@#2\endcsname
     {\ttl@tocentry{#1}{#2}{#3}{#4}{{#5}{#6}}{#7}}%
   \@ifnextchar[{\ttl@contents@ii{#1}{#2}}%
@@ -421,6 +353,7 @@
   \xdef\ttl@b{\csname ttll@#2\endcsname}%
   \ifnum\ttl@b>\c@tocdepth\else
     \ifnum\ttl@b<\ttl@toctop\else
+      \ttl@fixhyperref
       \edef\ttl@a{\ttl@lasttoc}%
       \gdef\thecontentspage{#8}%
       \global\let\thecontentslabel\@empty
@@ -550,13 +483,19 @@
   \fi
   \ignorespaces}
 
-\newcommand\printcontents[4][default]{%
-  \ttl@printlist[#1]{toc}{#2}{#3}{#4}}
+\newcommand\printcontents[3][default]{%
+  \def\ttl@a{[#1]{toc}{#2}{#3}}%
+  \ttl@preprint}
+  
+\newcommand\printlist[3][default]{%
+  \def\ttl@a{[#1]{#2}{#3}{-1001}}%
+  \ttl@preprint}
 
-\newcommand\printlist[4][default]{%
-  \ttl@printlist[#1]{#2}{#3}{-1001}{#4}}
+\newcommand\ttl@preprint[2][\c@tocdepth]{%
+  \expandafter\ttl@printlist\ttl@a{#1}{#2}}
 
-\newcommand\ttl@printlist[5][default]{%
+% 1-name 2-list 3-prefix 4-startlevel 5-depth 6-toccode
+\newcommand\ttl@printlist[6][default]{%
   \begingroup
     \@ifundefined{c@ttl@#2@#1}%
       {\PackageError{titletoc}{No partial #2 named #1}%
@@ -564,7 +503,8 @@
           with \string/startcontents/\string\startlist.}}{}%
     \edef\ttl@ptoc{#1@\arabic{ttl@#2@#1}}%
     \def\ttl@toctop{#4}%
-    #5%
+    \c@tocdepth=#5\relax
+    #6%
     \let\ttl@xcontentsline\contentsline
     \let\contentsline\ttl@gobblecontents
     \def\ttl@contentsline##1{%
@@ -633,3 +573,25 @@
 \edef\ttl@corr{-\the\@tempskipa}
 
 \endinput
+
+MIT License
+-----------
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

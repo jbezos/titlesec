@@ -7,8 +7,8 @@
 % Repository: https://github.com/jbezos/titlesec
 %
 
-\def\fileversion{2.11}  %%NB%%
-\def\docdate{2016-03-21}  %%NB%%
+\def\fileversion{2.11.1702}
+\def\docdate{2016-03-21}
 
 \documentclass[a4paper]{ltxguide}
 \usepackage[sf,bf,compact,topmarks,calcwidth,pagestyles]{titlesec}
@@ -345,6 +345,10 @@ latter, at the beginning of the paragraph). Otherwise is ignored.
 Penalties in this argument may lead to unexpected results.
 \end{itemize}
 
+Penalties, marks and the like must be properly synchronized with page
+breaks. So, |<before-code>| and |<after-code>| are \textit{not} the
+proper places for penalties. See |\sectionbreak| below.
+
 \begin{desc}
 |\chaptertitlename|
 \end{desc}
@@ -502,6 +506,18 @@ wants a page break inside a title, this has been made the default.  If
 for some extrange reason you want to allow page breaks inside the
 titles, use the package option \verb|pageatnewline|, which is provided
 for backward compatibility.
+
+\begin{desc}
+|\nostruts|\\
+|nostruts|  \quad (Package option)
+\end{desc}
+
+\fbox{2.11} The styles defined by \textsf{titlesec} insert some struts
+at certain places to make sure the vertical space is the same with
+relation with the baseline. This is not always the desired behavior, so
+the package options |nostruts| is provided. An alternative is the macro
+|\nostruts| when defining a section (note this macros is defined only
+within a title).
 
 \subsection{Rules}
 
@@ -1482,7 +1498,7 @@ Since partial contents are stopped by |\startcontents| if necessary,
 those macros will not be used very often.
 
 \begin{desc}
-|\printcontents[<name>]{<prefix>}{<start-level>}{<toc-code>}|
+|\printcontents[<name>]{<prefix>}{<start-level>}[<toc-depth>]{<toc-code>}|
 \end{desc}
 
 Print the current partial toc of |<name>| kind. The format
@@ -1492,9 +1508,12 @@ it is defined. For example, if prefix is |l| and the format of
 |lsection| is defined, then this definition will be used; otherwise,
 the format is that of |section|. The |<start-level>| parameter sets the
 top level of the tocs---for a part toc it would be |0| (chapter), for a
-chapter toc |1| (section), and so on. Finally, |<toc-code>| is
+chapter toc |1| (section), and so on. The |<toc-code>| is
 local code for the current toc; it may be used to change the
-|tocdepth| value or |\contentsmargin|, for instance.
+|\contentsmargin|, for instance. \textbf{New 2.12} Finally,
+|<toc-depth>| sets the |tocdepth| locally (in former versions it was
+suggested setting this value with |\setcounter| in the last argument,
+but that was wrong, because this command set counters globally).
 
 A simple usage might look like (provided you are using 
 \textsf{titlesec} as well):
@@ -1503,7 +1522,7 @@ A simple usage might look like (provided you are using
   {...}{...}{...}  % Your definitions come here
   [\vspace*{4pc}%
    \startcontents
-   \printcontents{l}{1}{\setcounter{tocdepth}{2}}]
+   \printcontents{l}{1}[2]{}]
    
 \titlecontents*{lsection}[0pt]
   {\small\itshape}{}{}
@@ -1521,7 +1540,7 @@ The commands are:
 |\startlist[<name>]{<list>}|\\
 |\stoplist[<name>]{<list>}|\\
 |\resumelist[<name>]{<list>}|\\
-|\printlist[<name>]{<list>}{<prefix>}{<toc-code>}|
+|\printlist[<name>]{<list>}{<prefix>}[<toc-depth>]{<toc-code>}|
 \end{desc}
 
 Here |<list>| is either |lof| or |lot|.  Note as well |\printlist|
@@ -2065,4 +2084,27 @@ programs.
 class, |\unitlength|, paper size, etc.)
 
 \end{document}
+
+MIT License
+-----------
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 
