@@ -1,7 +1,5 @@
 ## Titlesec, Titletoc, Titleps
 
-***This is an unstable release.***
-
 This directory holds 3 packages for sectioning titles -- when used as
 such (titlesec), in headers and footers (titleps) and in tables of
 contents (titletoc).  They can be used separately, but you will get
@@ -30,12 +28,14 @@ mechanims is used, without intermediate `\leftmark`s or `\rightmark`s.
 ### Latest changes
 
 ```
-2.11  2019-06-28
+2.11  2019-07-16
       - New license: MIT.
       - Option nostruts, to remove struts inserted by titlesec.
-      - Reorganized code: only sty files, removed def and tss ones.
+      - Reorganized code: only sty files, removed def and tss ones
+        (although the mechanism for tss still works).
       - Fix - Wrong hyperlinks in table of contents with the starred
-        versions, because of a change of behavior of hyperref.
+        versions, because of a change of behavior of hyperref (it
+        patches the behaviour of an internal macro in hyperref).
       - Fix - Wrong spacing with titleps and displayed text after a
         section.
       - Fix - Newly defined floats raised an error with titletoc.

@@ -7,7 +7,7 @@
 % Repository: https://github.com/jbezos/titlesec
 %
 
-\ProvidesPackage{titletoc}[2019/07/14 v2.11.1702 TOC entries]
+\ProvidesPackage{titletoc}[2019/07/16 v2.11 TOC entries]
 
 % The following tags are used:
 % ttl@  : the generic one, shared with titlesec
@@ -208,7 +208,8 @@
   \@ifnextchar[{\ttl@contents@i{#1}{#2}}%
                {\ttl@contents@i{#1}{#2}[\@nil]}}
 
-% A dirty hack to fix wrong destinations with hyperref:
+% A dirty hack to fix wrong destinations with hyperref. But activate
+% only if some inline entry is defined (ie, #1 = 0):
 \let\ttl@fixhyperref\relax
 
 \def\ttl@contents@i#1#2[#3]#4#5#6#7{%
@@ -350,10 +351,10 @@
   \let\ttl@leaders\leaders}
 
 \def\ttl@tocentry#1#2#3#4#5#6#7#8{%
+  \ttl@fixhyperref
   \xdef\ttl@b{\csname ttll@#2\endcsname}%
   \ifnum\ttl@b>\c@tocdepth\else
     \ifnum\ttl@b<\ttl@toctop\else
-      \ttl@fixhyperref
       \edef\ttl@a{\ttl@lasttoc}%
       \gdef\thecontentspage{#8}%
       \global\let\thecontentslabel\@empty
@@ -403,10 +404,10 @@
 
 % Multiple tocs and lists
 % ~~~~~~~~~~~~~~~~~~~~~~~~
-% After some attemps to adapt titletoc to minitoc, I've decided
-% to implement my own solution, because entries as written by
-% minitoc are non standard and unmanageable. The new commands
-% provides a good deal of flexibility, too.
+% After some attemps to adapt titletoc to minitoc, I decided to
+% implement my own solution, because entries as written by minitoc are
+% non standard. The new commands provides a good deal of flexibility,
+% too.
 
 \let\ttl@startlists\@empty
 \let\ttl@writefile\@writefile
@@ -494,7 +495,7 @@
 \newcommand\ttl@preprint[2][\c@tocdepth]{%
   \expandafter\ttl@printlist\ttl@a{#1}{#2}}
 
-% 1-name 2-list 3-prefix 4-startlevel 5-depth 6-toccode
+% 1:name 2:list 3:prefix 4:startlevel 5:depth 6:toccode
 \newcommand\ttl@printlist[6][default]{%
   \begingroup
     \@ifundefined{c@ttl@#2@#1}%
@@ -527,10 +528,12 @@
 
 \def\ttl@toctop{-1000}
 
-% Now the we add \contentsfinish to the current definitions
-% and a "selector" for partial tocs
+% Now the we add \contentsfinish to the current definitions and a
+% "selector" for partial tocs with a wrapper for the original
+% definitions (saved as \ttl@savel@#1).
 
 \def\ttl@lselect#1{%
+  \ttl@fixhyperref
   \ifnum\csname ttll@#1\endcsname>\c@tocdepth\else
     \contentsfinish
   \fi

@@ -7,8 +7,8 @@
 % Repository: https://github.com/jbezos/titlesec
 %
 
-\def\fileversion{2.11.1702}
-\def\docdate{2016-03-21}
+\def\fileversion{2.11}
+\def\docdate{2019/07/16}
 
 \documentclass[a4paper]{ltxguide}
 \usepackage[sf,bf,compact,topmarks,calcwidth,pagestyles]{titlesec}
@@ -56,7 +56,7 @@ dotlessi, babeltools}.}}
 \newpagestyle{myps}[\small\sffamily\slshape]{
   \headrule
   \sethead{Titlesec}{\sectiontitle}{\usepage}}
-  
+
 \pagestyle{myps}
 
 \newcommand{\examplesep}{%
@@ -143,7 +143,6 @@ redefine the commands you'll use.  Both methods are available at the
 same time, but because |\part| is usually implemented in a
 non-standard way, it remains untouched by the simple settings and
 should be changed with the help of the ``Advanced Interface.''
-
 
 \section{Quick Reference}
 %~~~~~~~~~~~~~~~~~~~~~~
@@ -321,7 +320,7 @@ above the title.
 there is no section label at that level, but this is not recommended
 because by doing so the number is not suppressed in the table of
 contents and running heads.
- 
+
 \item |<sep>| is the horizontal separation between label and title 
 body and must be a length (it must not be empty). This space is 
 vertical in |display| shape; in |frame| it is the distance from text 
@@ -449,7 +448,6 @@ The inter-word space for the current font.
 By-pass the settings for all of sectioning commands.%
 \footnote{Formerly |indentfirst| and |nonindentfirst|, now
 deprecated.}
-
 
 \begin{desc}
 |rigidchapters rubberchapters| \quad (Package options)
@@ -1238,10 +1236,10 @@ Here:
 
 \item |<left>| even if bracketed is currently mandatory and it
   sets the left margin from the left page margin.
-  
+
 \item |<label width>| is the width of the space created for the label,
   as described  above.
-  
+
 \item |<leader width>| is the width of the box containing the char to
   be used as filler, as described below.
 \end{itemize}
@@ -1510,7 +1508,7 @@ the format is that of |section|. The |<start-level>| parameter sets the
 top level of the tocs---for a part toc it would be |0| (chapter), for a
 chapter toc |1| (section), and so on. The |<toc-code>| is
 local code for the current toc; it may be used to change the
-|\contentsmargin|, for instance. \textbf{New 2.12} Finally,
+|\contentsmargin|, for instance. \textbf{New 2.11} Finally,
 |<toc-depth>| sets the |tocdepth| locally (in former versions it was
 suggested setting this value with |\setcounter| in the last argument,
 but that was wrong, because this command set counters globally).
@@ -1523,7 +1521,7 @@ A simple usage might look like (provided you are using
   [\vspace*{4pc}%
    \startcontents
    \printcontents{l}{1}[2]{}]
-   
+
 \titlecontents*{lsection}[0pt]
   {\small\itshape}{}{}
   {}[ \textbullet\ ][.]
@@ -1588,7 +1586,7 @@ after an em-space.
               {}  % That is, without page number
               [\addvspace{.5pc}]
 \end{verbatim}
-              
+
 The chapter title is centered with the chapter label on top
 of it. There is no page number.
 
@@ -1713,7 +1711,7 @@ is an example of the section command defined below}
 \titleformat{\section}[block]
   {\normalfont\sffamily}
   {\thesection}{.5em}{\titlerule\\[.8ex]\bfseries}
-  
+
 \section[Appendix]{Another Ruled Title}
 
 \begin{verbatim}
@@ -1789,7 +1787,7 @@ an example of the section command defined below}
   {}{0pt}{}
 \titlespacing{\section}
   {\parindent}{*2}{\wordsep}
-  
+
 \section*{This part is the title itself}
 and this part is the section body\ldots
 
@@ -1931,7 +1929,7 @@ with slight changes.
    \vspace{1pc}%
    \Huge}
 \end{verbatim}
-   
+
 \examplesep
 
 \def\thesection{\Roman{section}}
@@ -1991,14 +1989,14 @@ Now an example of a complete title scheme follows.
 % 5+1=6, ie, the negative left margin in section
 
 \widenhead{6pc}{0pc}
-  
+
 \renewpagestyle{plain}{}
 
 \newpagestyle{special}[\small\sffamily]{
    \headrule
    \sethead[\usepage][\textsl{\chaptertitle}][]
            {}{\textsl{\chaptertitle}}{\usepage}}
-               
+
 \newpagestyle{main}[\small\sffamily]{
    \headrule
    \sethead[\usepage][\textsl{\thechapter. \chaptertitle}][]
@@ -2059,7 +2057,7 @@ programs.
 \begin{verbatim}
 \usepackage[dvips]{color}
 \usepackage[rigidchapters,explicit]{titlesec}
-    
+
 \DeclareFixedFont{\chapterfont}{T1}{phv}{bx}{n}{11cm}
 
 \titlespacing{\chapter}{0pt}{0pt}{210pt}
@@ -2106,5 +2104,3 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
