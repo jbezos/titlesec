@@ -7,14 +7,15 @@
 % Repository: https://github.com/jbezos/titlesec
 %
 
-\def\fileversion{2.11}
-\def\docdate{2019/07/16}
+\def\fileversion{2.11.1747}
+\def\docdate{2019/08/28}
 
 \documentclass[a4paper]{ltxguide}
 \usepackage[sf,bf,compact,topmarks,calcwidth,pagestyles]{titlesec}
-\usepackage{titletoc}
+\usepackage{titletoc,color}
 \def\gobble#1{}
 \def\cs#1{\expandafter\gobble\string\\#1}
+\definecolor{notes}{rgb}{.75, .3, .3}%
 \makeatletter
 \newenvironment{desc}
   {\if@nobreak
@@ -23,9 +24,16 @@
    \fi
    \decl}
   {\enddecl}
+\def\@begintheorem#1#2{%
+  \list{}{}%
+  \global\advance\@listdepth\m@ne
+  \item[{\sffamily\bfseries\color{notes}\MakeUppercase{#1}}]}%
+\newtheorem{warning}{Warning}
+\newtheorem{note}{Note}
+\newtheorem{example}{Example}
 \makeatother
 
-\usepackage{textcomp,pslatex}
+\usepackage{textcomp,bera}
 \usepackage[linktocpage]{hyperref}
 
 \title{The \textsf{titlesec}, \textsf{titleps} and \textsf{titletoc} 
@@ -91,6 +99,14 @@ dotlessi, babeltools}.}}
 
 \maketitle
 \tableofcontents
+
+\begin{note}
+  Please, report any issues you find on
+  \texttt{https://github.com/jbezos/titlesec/issues}, which is better
+  than just complaining on an e-mail list or a web forum. Forking
+  and pull requests are welcome.
+\end{note}
+
 \section{Introduction}
 
 This package is essentially a replacement---partial or total---for the 
@@ -835,17 +851,24 @@ While the shapes and the like modify the behaviour of titles related
 to the surrounding text, title classes allow to change the generic
 behaviour of them.  With the help of classes you may insert, say, a
 new |subchapter| level between |chapter| and |section|, or creating a
-scheme of your own.  \emph{Making a consistent scheme and defining all
-of related stuff like counters, macros, format, spacing and, if there
-is a TOC, TOC format is left to the responsibility of the user.} There
-are three classes: |page| is like the book |\part|, in a single page,
-|top| is like |\chapter|, which begins a page and places the title at
-the top, and |straight| is intended for titles in the middle of
-text.\footnote{There is an further class named |part| to emulate the
-article |\cs{part}|, but you should not use it at all.  Use the
-|straight| class instead.  Remember some features rely in these
-classes and \textsf{titlesec} does not change by default the
-definition of \texttt{\string\part} and \texttt{\string\chapter}.}
+scheme of your own.
+
+There are three classes: |page| is like the book |\part|, in a single
+page, |top| is like |\chapter|, which begins a page and places the
+title at the top, and |straight| is intended for titles in the middle
+of text.\footnote{There is an further class named |part| to emulate the
+article |\cs{part}|, but you should not use it at all. Use the
+|straight| class instead. Remember some features rely in these classes
+and \textsf{titlesec} does not change by default the definition of
+\texttt{\string\part} and \texttt{\string\chapter}.}
+
+\begin{warning}
+  Making a consistent scheme and defining all of
+  related stuff like counters, macros, format, and spacing is left to the
+  responsibility of the user. If there is a TOC, also the TOC format,
+  which might require redefining the corresponding macros to change the
+  hardcoded value (either by hand or with \textsf{titletoc}).
+\end{warning}
 
 \begin{desc}
 |\titleclass{<name>}{<class>}|\\
@@ -1518,16 +1541,17 @@ A simple usage might look like (provided you are using
 \begin{verbatim}
 \titleformat{\chapter}[display]
   {...}{...}{...}  % Your definitions come here
-  [\vspace*{4pc}%
+  [{\vspace*{4pc}%
    \startcontents
-   \printcontents{l}{1}[2]{}]
+   \printcontents{l}{1}[2]{}}]
 
 \titlecontents*{lsection}[0pt]
   {\small\itshape}{}{}
   {}[ \textbullet\ ][.]
 \end{verbatim}
 The included entries are those in levels 1 to 2 inclusive (i.e., 1 
-and 2).
+and 2). Note the whole optional argument is enclosed in braces, because
+there is an internal \texttt{[]}.
 
 \subsection[Partial lists]{Partial lists \normalfont\normalsize\fbox{2.6}}
 

@@ -7,7 +7,7 @@
 % Repository: https://github.com/jbezos/titlesec
 %
 
-\ProvidesPackage{titletoc}[2019/07/16 v2.11 TOC entries]
+\ProvidesPackage{titletoc}[2019/08/28 v2.11.1747 TOC entries]
 
 % The following tags are used:
 % ttl@  : the generic one, shared with titlesec
@@ -213,9 +213,6 @@
 \let\ttl@fixhyperref\relax
 
 \def\ttl@contents@i#1#2[#3]#4#5#6#7{%
-  \@ifundefined{ttll@#2}%
-    {\expandafter\def\csname ttll@#2\endcsname{-1000}}%
-    {}%
   \ifcase#1\relax
     \def\ttl@fixhyperref{%
       \ifx\Hy@tocdestname\@undefined\else
@@ -289,6 +286,18 @@
 
 \def\ttl@lasttoc{-1000} % An inital dummy assignment
 
+\def\ttl@providettll#1#2{%
+  \@ifundefined{ttll@#1#2}%
+    {\global\expandafter\let\csname ttll@#1#2\expandafter\endcsname
+        \csname ttll@#2\endcsname}%
+    {}%
+  \@ifundefined{ttll@#1#2}%
+    {\PackageWarning{titletoc}%
+       {Unknown TOC type #1#2. I'll set it for you with\MessageBreak
+        level -1000.}%
+     \expandafter\gdef\csname ttll@#1#2\endcsname{-1000}}%
+    {}}
+
 % 1 ifblock, 2 sect name, 3 left, 4 before,
 % 5 {with}{without}, 6 filler/page, 7  title 8 pageno
 
@@ -352,6 +361,7 @@
 
 \def\ttl@tocentry#1#2#3#4#5#6#7#8{%
   \ttl@fixhyperref
+  \ttl@providettll{}{#2}%
   \xdef\ttl@b{\csname ttll@#2\endcsname}%
   \ifnum\ttl@b>\c@tocdepth\else
     \ifnum\ttl@b<\ttl@toctop\else
@@ -487,7 +497,7 @@
 \newcommand\printcontents[3][default]{%
   \def\ttl@a{[#1]{toc}{#2}{#3}}%
   \ttl@preprint}
-  
+
 \newcommand\printlist[3][default]{%
   \def\ttl@a{[#1]{#2}{#3}{-1001}}%
   \ttl@preprint}
@@ -509,9 +519,7 @@
     \let\ttl@xcontentsline\contentsline
     \let\contentsline\ttl@gobblecontents
     \def\ttl@contentsline##1{%
-      \@ifundefined{ttll@#3##1}%
-        {\expandafter\let\csname ttll@#3##1\expandafter\endcsname
-           \csname ttll@##1\endcsname}{}%
+      \ttl@providettll{#3}{##1}%
       \@ifundefined{l@#3##1}%
         {\ttl@xcontentsline{##1}}%
         {\ttl@xcontentsline{#3##1}}}%

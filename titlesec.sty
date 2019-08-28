@@ -34,7 +34,7 @@
 % ~~~~~~~
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{titlesec}[2019/07/16 v2.11 Sectioning titles]
+\ProvidesPackage{titlesec}[2019/08/28 v2.11.1747 Sectioning titles]
 
 % Initialization
 % ~~~~~~~~~~~~~~
@@ -1572,13 +1572,16 @@
   \ttl@a}
 
 \def\ttl@extract#1{%
+  \ifx#1\@undefined
+    \let#1\relax % Avoid error if undefined
+  \fi
   \expandafter\in@\expandafter\@startsection\expandafter{#1}%
   \ifin@
     \expandafter\ttl@@extract#1#1%
   \else
     \PackageWarningNoLine{titlesec}%
-      {Non standard sectioning command detected\MessageBreak
-       Using default spacing and no format}
+      {Non standard sectioning command \string#1\MessageBreak
+       detected. Using default spacing and no format}%
     \titlespacing*#1{\z@}{*3}{*2}%
   \fi}
 
