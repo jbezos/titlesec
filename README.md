@@ -28,6 +28,9 @@ mechanims is used, without intermediate `\leftmark`s or `\rightmark`s.
 ### Latest changes
 
 ```
+2.12  2019-09-09
+      - Fix - Partial TOCs were severely broken.
+      - Fix - An undefined section doesn't raise an error any more.
 2.11  2019-07-16
       - New license: MIT.
       - Option nostruts, to remove struts inserted by titlesec.
