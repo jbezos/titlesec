@@ -28,9 +28,14 @@ mechanims is used, without intermediate `\leftmark`s or `\rightmark`s.
 ### Latest changes
 
 ```
+2.13  2019-10-16
+      - \markboth (which has been redefined in the LaTeX kernel) works
+        again.
+
 2.12  2019-09-09
       - Fix - Partial TOCs were severely broken.
       - Fix - An undefined section doesn't raise an error any more.
+
 2.11  2019-07-16
       - New license: MIT.
       - Option nostruts, to remove struts inserted by titlesec.
@@ -61,5 +66,3 @@ Further details are available on
 Please, for suggestions, bug reports, etc., go to
 More
    http://www.texnia.com/contact.html
-
-

@@ -13,7 +13,7 @@
 \ifx\ttl@coreps\@empty\else      % START code for package
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{titleps}[2019/09/09 v2.12 Page styles]
+\ProvidesPackage{titleps}[2019/10/16 v2.13 Page styles]
 
 % This package is mainly a wrapper for the pagestyle macros provided
 % by titlesec, so that they can be used without it.  Functionality is
@@ -217,9 +217,15 @@
 % \ttl@markboth redefines temporarily \mark to fetch changes made by
 % babel or ams, saved in \ttl@running.  When this is done, the actual
 % \mark es emitted, which has \ttl@running as part of the markset (see
-% the \newtitlemark above). 
+% the \newtitlemark above). As of 2019 and due to a change in the LaTex
+% kernel, we consider two possibilities (2.13).
 
-\def\ttl@mb@mark{\markboth}
+\expandafter\ifx\csname markboth \endcsname\relax
+  \def\ttl@mb@mark{\markboth}
+\else
+  \edef\ttl@mb@mark{\expandafter\noexpand\csname markboth \endcsname}
+\fi
+
 \def\ttl@mb@warn{%
   \PackageWarningNoLine{titleps}
     {Direct use of \string\markboth\space and \string\markleft\space
@@ -495,32 +501,64 @@
   \fi}
 
 % Another tool:
+% As of 2019 and due to a change in the LaTex kernel, we consider two
+% possibilities (2.13).
 
-\newcommand\setmarkboth{%
-  \ifx\markboth\ttl@mb@use\else
-    \let\ttl@mb@mark\markboth
-    \let\markboth\ttl@mb@use
-  \fi
-  \def\ttl@mb@new##1##2}
+\expandafter\ifx\csname markboth \endcsname\relax
 
-% \ttl@mb@temp is a trick to allow resetting inside \setmarkboth.
+  \newcommand\setmarkboth{%
+    \ifx\markboth\ttl@mb@use\else
+      \let\ttl@mb@mark\markboth
+      \let\markboth\ttl@mb@use
+    \fi
+    \def\ttl@mb@new##1##2}
 
-\def\ttl@mb@use#1#2{%
-  \let\markboth\ttl@mb@mark
-  \def\ttl@mb@temp{\let\markboth\ttl@mb@use}%
-  \ttl@mb@new{#1}{#2}%
-  \ttl@mb@temp
-  \let\ttl@mb@temp\@undefined}
+  % \ttl@mb@temp is a trick to allow resetting inside \setmarkboth.
 
-\newcommand\resetmarkboth{%
-  \ifx\ttl@mb@temp\@undefined
+  \def\ttl@mb@use#1#2{%
     \let\markboth\ttl@mb@mark
-    \def\ttl@mb@mark{\markboth}%
-  \else
-    \def\ttl@mb@temp{%
+    \def\ttl@mb@temp{\let\markboth\ttl@mb@use}%
+    \ttl@mb@new{#1}{#2}%
+    \ttl@mb@temp
+    \let\ttl@mb@temp\@undefined}
+
+  \newcommand\resetmarkboth{%
+    \ifx\ttl@mb@temp\@undefined
       \let\markboth\ttl@mb@mark
-      \def\ttl@mb@mark{\markboth}}%
-  \fi}
+      \def\ttl@mb@mark{\markboth}%
+    \else
+      \def\ttl@mb@temp{%
+        \let\markboth\ttl@mb@mark
+        \def\ttl@mb@mark{\markboth}}%
+    \fi}
+
+\else
+
+  \newcommand\setmarkboth{%
+    \expandafter\ifx\csname markboth \endcsname\ttl@mb@use\else
+      \expandafter\let\expandafter\ttl@mb@mark\csname markboth \endcsname
+      \expandafter\let\csname markboth \endcsname\ttl@mb@use
+    \fi
+    \def\ttl@mb@new##1##2}
+
+  \def\ttl@mb@use#1#2{%
+    \expandafter\let\csname markboth \endcsname\ttl@mb@mark
+    \def\ttl@mb@temp{\expandafter\let\csname markboth \endcsname\ttl@mb@use}%
+    \ttl@mb@new{#1}{#2}%
+    \ttl@mb@temp
+    \let\ttl@mb@temp\@undefined}
+
+  \newcommand\resetmarkboth{%
+    \ifx\ttl@mb@temp\@undefined
+      \expandafter\let\csname markboth \endcsname\ttl@mb@mark
+      \edef\ttl@mb@mark{\expandafter\noexpand\csname markboth \endcsname}%
+    \else
+      \def\ttl@mb@temp{%
+        \expandafter\let\csname markboth \endcsname\ttl@mb@mark
+        \edef\ttl@mb@mark{\expandafter\noexpand\csname markboth \endcsname}}%
+    \fi}
+
+\fi
 
 % ===========
 % EXTRA MARKS

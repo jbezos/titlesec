@@ -34,7 +34,7 @@
 % ~~~~~~~
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{titlesec}[2019/09/09 v2.12 Sectioning titles]
+\ProvidesPackage{titlesec}[2019/10/16 v2.13 Sectioning titles]
 
 % Initialization
 % ~~~~~~~~~~~~~~
@@ -254,6 +254,9 @@
 % is not lost inside a box by saving it into \ttl@mk,
 % which in turn is used by the sect and chap commands.
 
+% As of 2019 and due the LaTex
+% kernel modifies \markboth, we consider two possibilities (2.13).
+
 \newif\ifttl@explicit
 
 \def\ttl@gmk#1{\gdef\ttl@mk{#1}}
@@ -272,8 +275,13 @@
    \let\ttl@page@i    \ttl@nest@error
    \let\ttl@newpage\newpage
    \def\newpage{\ttl@savewrite\ttl@newpage}%
-   \def\markboth##1##2{\protect\ttl@gmk{\protect\markboth{##1}{##2}}}%
-   \def\markright##1{\protect\ttl@gmk{\protect\markright{##1}}}%
+   \expandafter\ifx\csname markboth \endcsname\relax
+     \def\markboth##1##2{\protect\ttl@gmk{\protect\markboth{##1}{##2}}}%
+     \def\markright##1{\protect\ttl@gmk{\protect\markright{##1}}}%
+   \else
+     \@namedef{markboth }##1##2{\protect\ttl@gmk{\markboth{##1}{##2}}}%
+     \@namedef{markright }##1{\protect\ttl@gmk{\markright{##1}}}%
+   \fi
    \def\@mkboth##1##2{\protect\ttl@gmk{\protect\@mkboth{##1}{##2}}}%
    \def\footnote{\@ifnextchar[%
      {\ttl@savefn\z@}{\ttl@savefn\@ne[]}}%
