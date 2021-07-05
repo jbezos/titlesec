@@ -28,6 +28,9 @@ mechanims is used, without intermediate `\leftmark`s or `\rightmark`s.
 ### Latest changes
 
 ```
+2.14  2021-07-05
+      A couple of minor changes (for issues #17, #39).
+
 2.13  2019-10-16
       - \markboth (which has been redefined in the LaTeX kernel) works
         again.
@@ -64,5 +67,5 @@ Further details are available on
 ### Contact
 
 Please, for suggestions, bug reports, etc., go to
-More
-   http://www.texnia.com/contact.html
+
+   https://github.com/jbezos/titlesec/issues

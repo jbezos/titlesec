@@ -1,5 +1,5 @@
 %
-% Copyright (C) 1998-2019 Javier Bezos http://www.texnia.com
+% Copyright (C) 1998-2021 Javier Bezos http://www.texnia.com
 %
 % This file may be distributed and/or modified under the conditions of
 % the MIT License. A version can be found at the end of this file.
@@ -7,8 +7,8 @@
 % Repository: https://github.com/jbezos/titlesec
 %
 
-\def\fileversion{2.13}
-\def\docdate{2019/10/16}
+\def\fileversion{2.14}
+\def\docdate{2021/07/05}
 
 \documentclass[a4paper]{ltxguide}
 \usepackage[sf,bf,compact,topmarks,calcwidth,pagestyles]{titlesec}
@@ -38,7 +38,7 @@
 
 \title{The \textsf{titlesec}, \textsf{titleps} and \textsf{titletoc} 
 Packages\footnote{The \textsf{titlesec} package is currently at 
-version 2.13. \copyright{} 1998--2019 Javier Bezos.}}
+version 2.14. \copyright{} 1998--2021 Javier Bezos.}}
 
 \author{Javier Bezos\footnote{For bug reports, comments and
 suggestions go to \href{http://www.tex-tipografia.com/contact.html}%
@@ -863,7 +863,7 @@ and \textsf{titlesec} does not change by default the definition of
   related stuff like counters, macros, format, and spacing is left to the
   responsibility of the user. If there is a TOC, also the TOC format,
   which might require redefining the corresponding macros to change the
-  hardcoded value (either by hand or with \textsf{titletoc}).
+  hardcoded value (either by hand or with \textsf{titletoc}). 
 \end{warning}
 
 \begin{desc}
@@ -900,6 +900,11 @@ depending of its name and ignoring the class:
 \item |\part| does not encapsulates the label in the toc entry,
 except if you use the |newparttoc| option.
 \end{itemize}
+
+\begin{warning}
+  If you set or reset the class, you may need to redefine the format,
+  too.
+\end{warning}
 
 \begin{desc}
 |loadonly| \quad (Package option)
@@ -1007,13 +1012,13 @@ unwanted space in the toc.)
 That works with standard classes, but if you are using
 \textsf{fancyhdr} or \textsf{titlesec} to define headers you need 
 further refinement to kill the section number. In \textsf{titlesec}
-that's accomplished with |\ifthesection| (see below).
+that's accomplished with |\ifthesection| (see \textsf{titleps.pdf}).
 
-As you can see, there are no |\addcontentsline|, no
-|\markboth|, no |\section*|, just logical structure. Of 
-course you may change it as you wish; for example if you decide
-these sections should be typeset in small typeface, include
-|\small|, and if you realize you do not like that, remove it.
+As you can see, there are no |\addcontentsline|, no |\markboth|, no
+|\section*|, just logical structure. Of course you may change it as you
+wish; for example if you decide these sections should be typeset in
+small typeface, include |\small|, and if you realize you do not like
+that, remove it.
 
 While the standard \LaTeX{} commands are easier and more
 direct for simple cases, I think the proposed method above is
@@ -1979,7 +1984,7 @@ with slight changes.
 \end{verbatim}
 
 \addtocontents{toc}{\protect\setcounter{tocdepth}{2}\ignorespaces}
-\setcounter{section}{9}
+\setcounter{section}{8}
 \endgroup
 
 \bigskip 

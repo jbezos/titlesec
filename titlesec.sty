@@ -1,5 +1,5 @@
 %
-% Copyright (C) 1998-2019 Javier Bezos http://www.texnia.com
+% Copyright (C) 1998-2021 Javier Bezos http://www.texnia.com
 %
 % This file may be distributed and/or modified under the conditions of
 % the MIT License. A version can be found at the end of this file.
@@ -34,7 +34,7 @@
 % ~~~~~~~
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{titlesec}[2019/10/16 v2.13 Sectioning titles]
+\ProvidesPackage{titlesec}[2021/07/05 v2.14 Sectioning titles]
 
 % Initialization
 % ~~~~~~~~~~~~~~
@@ -289,8 +289,13 @@
    \def\ttl@b{ttlf@#1}%
    \def\ttl@a##1{\csname ttl@key@##1\endcsname}% Used as elt in try
    \ttl@trylist
+   \ifx\ttl@c\@empty
+     \PackageError{titlesec}{No format for this command}%
+       {If you (re)set the class of a sectioning command, you may\MessageBreak
+        you may need to (re)define its format with \string\titleformat}%
+   \fi
    \ifttl@explicit
-     \def\ttl@passexplicit{\ttl@case{#4}}% 
+     \def\ttl@passexplicit{\ttl@case{#4}}%
      \ttl@c{#4}{#2}{#3}{}% ttl@c is returned by ttl@try with ttlf@...
    \else     
      \let\ttl@passexplicit\ttl@case
