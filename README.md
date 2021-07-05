@@ -69,3 +69,4 @@ Further details are available on
 Please, for suggestions, bug reports, etc., go to
 
    https://github.com/jbezos/titlesec/issues
+
