@@ -1,3 +1,5 @@
+**Development**
+
 ## Titlesec, Titletoc, Titleps
 
 This directory holds 3 packages for sectioning titles -- when used as

@@ -67,7 +67,7 @@
 % premark/gobble, sect-name, opt, title
 \def\ttl@presec@x#1#2[#3]#4{%
   #1{#2}{#3}%
-  \@nameuse{ttl@s@#2}[#3]{#4}}
+  \@nameuse{ttl@s@#2}[{#3}]{#4}}
 
 \def\ttl@presec@s#1#2{%
   \gdef\ttl@savemark{\@nameuse{#1mark}{#2}}%

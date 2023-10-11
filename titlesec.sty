@@ -283,7 +283,7 @@
      \@namedef{markright }##1{\protect\ttl@gmk{\markright{##1}}}%
    \fi
    \def\@mkboth##1##2{\protect\ttl@gmk{\protect\@mkboth{##1}{##2}}}%
-   \def\footnote{\@ifnextchar[%
+   \protected\def\footnote{\@ifnextchar[%
      {\ttl@savefn\z@}{\ttl@savefn\@ne[]}}%
    \edef\ttl@key@numberless{\ifttl@label//\else/*\fi}%
    \def\ttl@b{ttlf@#1}%
@@ -727,8 +727,7 @@
 
 % Styles
 % ~~~~~~
-
-% 1:global 2:label 3:sep 4:style 5:after 6:left 7:right 8:title
+%
 % \ttl@<shape> and \ttlh@<shape> take the following eight
 % arguments:
 % {format}{label}{sep}{before}{after}{left}{right}{title}

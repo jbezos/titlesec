@@ -170,7 +170,7 @@ subsequent ones.
 There are three option groups controlling font, size and align.  You 
 need not set all of these groups, since a default is provided for each 
 one; however, you must use at least an option from them if you want
-this ``easy setup.'' 
+this ``easy setup''. 
 \begin{desc}
 |rm sf tt md bf up it sl sc|
 \end{desc}
@@ -238,8 +238,8 @@ command, as for example:
 %~~~~~~~~~~~~~~~~~~~~~~~~
 
 Two commands are provided to change the title format.  The first one
-is used for the ``internal'' format, i.~e., shape, font, label\dots,
-the second one defines the ``external'' format, i.~e., spacing before
+is used for the ``internal'' format, i.e., shape, font, label\dots,
+the second one defines the ``external'' format, i.e., spacing before
 and after, indentation, etc.  This scheme is intended to easy
 definitions, since in most of cases you will want to modify either
 spacing or format.\footnote{Information is ``extracted'' from the
@@ -256,7 +256,7 @@ and then their format can be set with the commands described here.
 \subsection{Format}
 
 A set of shapes is provided, which controls the basic distribution of
-elements in a title. The available shapes are:
+elements in the title. The available shapes are:
 \begin{description}
 \item[hang] is the default value, with a hanging label.  (Like the 
 standard |\section|.)
@@ -315,7 +315,7 @@ parts.
 
 Here
 \begin{itemize}
-\item |<command>| is the sectioning command to be redefined, i.~e., 
+\item |<command>| is the sectioning command to be redefined, i.e., 
 |\part|,
 |\chapter|, |\section|, |\subsection|, |\subsubsection|, |\paragraph| 
 or |\subparagraph|.
@@ -323,7 +323,7 @@ or |\subparagraph|.
 \item The paragraph shape is set by |<shape>|, whose possible
 values are those described above.
 
-\item |<format>| is the format to be applied to the whole
+\item |<format>| is the format applied to the whole
 title---label and text.  This part can contain vertical material (and
 horizontal with some shapes) which is typeset just after the space
 above the title.
@@ -340,7 +340,7 @@ to frame. Both |<label>| and |<sep>| are ignored in starred versions
 of sectioning commands. If you are using |picture| and the like, set 
 this parameter to 0 pt.
 
-\item |<before-code>| is code preceding the title body. The very last
+\item |<before-code>| is the code preceding the title body. The very last
 command can take an argument, which is the title
 text.\footnote{Remember font size can be changed safely between
 paragraphs only, and changes in the text should be made local with a
@@ -349,7 +349,7 @@ However, with the package option \texttt{explicit} the title must be
 given explicitly with |#1| (see below). Penalties in this argument may
 lead to unexpected results.
 
-\item |<after-code>| is code following the title body. The typeset
+\item |<after-code>| is the code following the title body. The typeset
 material is in vertical mode with |hang|, |block| and |display|; in
 horizontal mode with |runin| and |leftmargin| (\fbox{2.7} with the
 latter, at the beginning of the paragraph). Otherwise is ignored.
@@ -359,6 +359,14 @@ Penalties in this argument may lead to unexpected results.
 Penalties, marks and the like must be properly synchronized with page
 breaks. So, |<before-code>| and |<after-code>| are \textit{not} the
 proper places for penalties. See |\sectionbreak| below.
+
+\begin{warning}
+  Because of the way colors are internally ‘stacked’ you can find some
+  anomalous results if |\color| is used in some shapes, namely |wrap|,
+  |drop|, |leftmargin| and |rightmargin|. Either wrap the text with
+  |\textcolor| or place the code inside a group. 
+\end{warning}
+
 
 \begin{desc}
 |\chaptertitlename|
@@ -379,7 +387,7 @@ following the title, except in |drop|, |wrap| and |runin| where this
 possibility does not make sense.
 \begin{itemize}
 \item |<left>| increases the left margin, except in the |...margin|, 
-and |drop| shape, where this parameter sets the title width, in 
+and |drop| shapes, where this parameter sets the title width, in 
 |wrap|, the maximum width, and in |runin|, the indentation just before 
 the title.  With negative value the title overhangs.\footnote{This 
 parameter is not equal to |<indent>| of |\cs{@startsection}|, which 
@@ -417,11 +425,16 @@ as units in the |*| settings and you can change them if you do not like
 the predefined values (or for slight changes in the makeup, for
 example).
 
-\textbf{Notes.} |\titlespacing| does not work with either |\chapter|
-and |\part| unless you change its title format as well by means of
-|\titleformat|, the simple settings, or |\titleclass|. Arguments in
-|\titlespacing| must be dimensions;  |\stretch| includes a command and
-hence raises an error.
+\begin{note}
+  |\titlespacing| does not work with either |\chapter| and |\part|
+  unless you change its title format as well by means of
+  |\titleformat|, the simple settings, or |\titleclass|.
+\end{note}
+
+\begin{note}
+  Arguments in |\titlespacing| must be dimensions; |\stretch| includes
+  a command and hence raises an error.
+\end{note}
 
 \subsection{Spacing related tools}
 
@@ -468,7 +481,7 @@ deprecated.}
 With |rigidchapters| the space for chapter titles is always the same, 
 and |<after-sep>| in |\titlespacing| does not mean the space from the 
 bottom of the text title to the text body as described above, but from 
-the \textit{top} of the text title, i.~e., |<before-sep>| $+$ 
+the \textit{top} of the text title, i.e., |<before-sep>| $+$ 
 |<after-sep>| now is a fixed distance from the top of the page body to 
 the main text. The default is |rubberchapters| where |<after-sep>| is 
 the separation between title and text as usual. Actually, the name is 
@@ -513,7 +526,7 @@ Default is |aftersep|.
 \fbox{2.6} In version 2.6 and later, \verb|\\| does not allow a page
 break and therefore is equivalent to \verb|\\*|.  Since I presume none
 wants a page break inside a title, this has been made the default.  If
-for some extrange reason you want to allow page breaks inside the
+for some strange reason you want to allow page breaks inside the
 titles, use the package option \verb|pageatnewline|, which is provided
 for backward compatibility.
 
@@ -526,7 +539,7 @@ for backward compatibility.
 at certain places to make sure the vertical space is the same with
 relation with the baseline. This is not always the desired behavior, so
 the package options |nostruts| is provided. An alternative is the macro
-|\nostruts| when defining a section (note this macros is defined only
+|\nostruts| when defining a section (note this macro is defined only
 within a title).
 
 \subsection{Rules}
@@ -543,7 +556,7 @@ They also take into account the space used by marginal titles.
 \end{desc}
 
 The |\titleline| command allows inserting a line, which may
-contain text and other ``horizontal'' material. it is intended 
+contain text and other ``horizontal'' material. It is intended 
 mainly for rules and leaders but in fact is also useful for other 
 purposes.  The line has a fixed width and hence must be filled, i.e., 
 |\titleline{CHAPTER}| produces an underfull box.  Here the optional 
@@ -786,7 +799,7 @@ besides the sectioning command name. Thus, the available keys are:
 \begin{itemize}
 \item |name|. Allowed values are |\chapter|, |\section|, etc.
 \item |page|. Allowed values are |odd| or |even|.
-\item |numberless|. A valueless key. it is not necessary unless you
+\item |numberless|. A valueless key. It is not necessary unless you
 want to set different numbered (without this key) and unnumbered
 (with |numberless|) variants.
 \end{itemize}
@@ -893,11 +906,11 @@ If the chapter level is 0, then the subchapter one is 1; the levels
 below are increased by one (section is 2, subsection is 3, and so on).
 
 There are two sectioning commands which perform some extra actions
-depending of its name and ignoring the class:
+depending on its name and ignoring the class:
 \begin{itemize}
 \item |\chapter| logs the string defined in |\chaptertitlename|
  and the matter is taken into account.
-\item |\part| does not encapsulates the label in the toc entry,
+\item |\part| does not encapsulate the label in the toc entry,
 except if you use the |newparttoc| option.
 \end{itemize}
 
@@ -913,7 +926,7 @@ except if you use the |newparttoc| option.
 Let us suppose you want to create your sectioning commands from scratch.
 This package option ignores any previous definitions, if any,
 and hence removes the possibility of using the options described
-in ``Quick Reference.'' Then you use the \textsf{titlesec}
+in ``Quick Reference''. Then you use the \textsf{titlesec}
 tools, and define the corresponding counters and labels.
 
 \begin{desc}
@@ -929,8 +942,15 @@ kind. After it, the rest of levels are added as explained above.
 \section{Additional Notes}
 %~~~~~~~~~~~~~~~~~~~~~~~~
 
-This part describes briefly some \LaTeX{} commands, useful
-when defining sectioning titles.
+Only a |\footnote| command is allowed in titles, but it will work.
+However, the footnote mark is not removed from toc entries or running
+headings; for that use
+\begin{verbatim}
+\usepackage[stable]{footmisc}
+\end{verbatim}
+
+The rest of this section describes briefly some \LaTeX{} commands,
+useful when defining sectioning titles.
 
 \subsection{Fixed Width Labels}
 
@@ -958,7 +978,7 @@ Firstly remember if you say
 \begin{verbatim}
 \setcounter{secnumdepth}{0}
 \end{verbatim}
-sections will be not numbered but they will be included in both toc
+sections will not be numbered but they will be included in both toc
 and headers.
 
 Now, let's
@@ -1317,7 +1337,7 @@ see the changes.
 The value set is used in all of sections. If you are wondering
 why, the answer is quite simple: in most of cases the |<right>|
 margin will be constant. However, you are allowed to change
-it locally in the |<before-code>| arguments. Note as well that
+it locally in the |<above-code>| arguments. Note as well that
 the default space in standard classes does not leave room to
 display boldfaced page number above 100 and therefore you
 might want to set a larger margin with this command.
@@ -1663,8 +1683,8 @@ be printed in the toc as well. Here is the code:
 Once you have read the documentation it should be clear this
 is not a package for the casual user who likes the standard
 layout and wants to make simple changes. This is a tool for the
-serious typographer who has a clear idea of what layout wants
-and do not have the skill to get it. No attempt is made to improve
+serious typographer who has a clear idea of what layout he wants
+but does not have the skill to get it. No attempt is made to improve
 your taste in section formatting.
 
 \section{Appendix}
