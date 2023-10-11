@@ -412,8 +412,17 @@
 % is empty if the star version is used. In this case
 % neither the toc nor the marks are written.
 
+\def\ttl@sanitizedlabel#1\@@\@@{%
+  \in@{\label}{#1}%
+  \ifin@
+    \ttl@sanitizedlabel@i#1\@@\@@
+    \expandafter\ttl@sanitizedlabel\@currentlabelname\@@\@@
+  \fi}
+\def\ttl@sanitizedlabel@i#1\label#2#3\@@\@@{%
+  \def\@currentlabelname{#1#3}}
+
 \def\ttl@straight@i#1[#2]#3{%
-  \def\@currentlabelname{#2}% for nameref
+  \ttl@sanitizedlabel#2\@@\@@
   \gdef\ttl@savemark{\csname#1mark\endcsname{#3}}%
   \let\ttl@savewrite\@empty
   \def\ttl@savetitle{#3}%
