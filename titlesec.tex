@@ -1,5 +1,5 @@
 %
-% Copyright (C) 1998-2021 Javier Bezos http://www.texnia.com
+% Copyright (C) 1998-2023 Javier Bezos http://www.texnia.com
 %
 % This file may be distributed and/or modified under the conditions of
 % the MIT License. A version can be found at the end of this file.
@@ -7,8 +7,8 @@
 % Repository: https://github.com/jbezos/titlesec
 %
 
-\def\fileversion{2.14}
-\def\docdate{2021/07/05}
+\def\fileversion{2.15}  %%NB%%
+\def\docdate{2023/10/17}  %%NB%%
 
 \documentclass[a4paper]{ltxguide}
 \usepackage[sf,bf,compact,topmarks,calcwidth,pagestyles]{titlesec}
@@ -38,7 +38,7 @@
 
 \title{The \textsf{titlesec}, \textsf{titleps} and \textsf{titletoc} 
 Packages\footnote{The \textsf{titlesec} package is currently at 
-version 2.14. \copyright{} 1998--2021 Javier Bezos.}}
+version 2.15. \copyright{} 1998--2023 Javier Bezos.}}
 
 \author{Javier Bezos\footnote{For bug reports, comments and
 suggestions go to \href{http://www.tex-tipografia.com/contact.html}%
@@ -136,15 +136,18 @@ of entries in the middle of a document.
 \end{itemize}
 \textsf{Titlesec} works with the standard classes and with many
 others, including the AMS ones, and it runs smoothly with
-\textsf{hyperref}.\footnote{However, be aware the AMS classes
-reimplement the original internal commands.  These changes will be
-lost here.  The compatibility with \textsf{hyperref} has been tested
-with \textsf{dvips}, \textsf{dvipdfm} and \textsf{pdftex} but it is an
-unsupported feature.  Please, check your version of
-\textsf{hyperref} is compatible with \textsf{titlesec}.}
-Unfortunately, it is not compatible with \textsf{memoir}, which
-provides its own tools with a limited subset of the features available
-in \textsf{titlesec}.
+\textsf{hyperref}.
+
+\begin{warning}
+  Be aware the AMS classes reimplement the original internal commands.
+  These changes will be lost here. The compatibility with
+  \textsf{hyperref} has been tested with \textsf{dvips}, \textsf{dvipdfm}
+  and \textsf{pdftex} but it is an unsupported feature (for example,
+  with |\titleclass| PDF bookmarks are not correctly nested). Please, check
+  your version of \textsf{hyperref} is compatible with
+  \textsf{titlesec}. Unfortunately, it is not compatible with
+  \textsf{memoir} or \textsf{KOMA}, which provide their own tools.
+\end{warning}
 
 As usual, load the package in the standard way with 
 |\usepackage|.  Then, redefine the sectioning commands with the 
@@ -710,7 +713,7 @@ unexpected (and even weird) results.
 |\chaptertolists|
 \end{desc}
 
-\fbox{2.6} If defined, the usual white space written to lists (i.e.,
+\fbox{2.6} If defined, the usual white space written to lists (ie,
 List of Figures and List of Tables) is replaced by the code in this
 command.  If you do not want the white space when a chapter begins,
 define it to empty, i.e.,
@@ -780,7 +783,7 @@ do not have to repeat the title just to remove a formatting command.
 should be a contents entry for it. This is somewhat odd, indeed, but
 the very fact is nobody has complained until now! On the other hand,
 restoring the behaviour one could expect after 15 years doesn't seem a
-good idea. A new page/part style is on the way, but for the moment
+good idea. A new page/part style in on the way, but for the moment
 this option restores the standard behaviour.
 
 \subsection{Extended Settings}

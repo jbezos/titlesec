@@ -1,4 +1,4 @@
-**Development**
+2023-10-17
 
 ## Titlesec, Titletoc, Titleps
 
@@ -30,6 +30,10 @@ mechanims is used, without intermediate `\leftmark`s or `\rightmark`s.
 ### Latest changes
 
 ```
+2.15  2023-10-17
+      Some fixes: #48, #50, #58, #64, #68 (see the GitHub repository
+      for further info).
+
 2.14  2021-07-05
       A couple of minor changes (for issues #17, #39).
 
@@ -71,4 +75,5 @@ Further details are available on
 Please, for suggestions, bug reports, etc., go to
 
    https://github.com/jbezos/titlesec/issues
-
+   
+   
