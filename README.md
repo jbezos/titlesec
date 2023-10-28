@@ -1,4 +1,4 @@
-2023-10-17
+2023-10-27
 
 ## Titlesec, Titletoc, Titleps
 
@@ -30,6 +30,9 @@ mechanims is used, without intermediate `\leftmark`s or `\rightmark`s.
 ### Latest changes
 
 ```
+2.16  2023-10-27
+      Undo the fix for #64.
+
 2.15  2023-10-17
       Some fixes: #48, #50, #58, #64, #68 (see the GitHub repository
       for further info).
