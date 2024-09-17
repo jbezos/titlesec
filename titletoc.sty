@@ -102,9 +102,10 @@
 \DeclareOption{rubberseps}{%
   \def\ttl@contentsstretch{\vskip\z@\@plus.1\p@}}
 
+\newcommand\contentslabel{}
 \DeclareOption{leftlabels}{%
   \renewcommand\numberline[1]{\hb@xt@\@tempdima{#1\ttl@idot\hfil}}%
-  \newcommand\contentslabel[2][\thecontentslabel\ttl@idot]{%
+  \renewcommand\contentslabel[2][\thecontentslabel\ttl@idot]{%
 %   \let\ttl@a\thecontentslabel   %%%%% For the star variant
 %   \def\thecontentslabel{#2}%    %%% To be fully implemented... when?
 %   \setbox\z@\hbox{#1}%
@@ -117,7 +118,7 @@
 \DeclareOption{rightlabels}{%
   \renewcommand\numberline[1]{\hb@xt@\@tempdima{\hss#1\ttl@idot\enspace}}%
   \let\contentslabel\relax
-  \newcommand\contentslabel[2][\thecontentslabel\ttl@idot\enspace]{%
+  \renewcommand\contentslabel[2][\thecontentslabel\ttl@idot\enspace]{%
     \hspace*{-#2}\hb@xt@#2{\hfil#1}}}
 
 \newcommand\contentspage[1][\thecontentspage]{%
